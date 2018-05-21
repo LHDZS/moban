@@ -1,16 +1,24 @@
 <template>
     <div class="commodity">
-        <div class="TiTle">
+        <div class="CTiTle">
             <router-link to="/"><el-button type="info" size="mini">首页</el-button></router-link>
             <router-link to="/classification"><el-button type="info" size="mini">分类</el-button></router-link>
             <router-link to="/commodity"><el-button type="info" size="mini" >商品</el-button></router-link>
         </div>
-        <Titlethree v-bind:dats="namesan"></Titlethree>
-        <Theselector v-if="iz == 1"></Theselector>
-        <Module v-if="iz == 1"></Module>
-        <Moduletwo v-if="iz == 2"></Moduletwo>
-        <Modulethree v-if="iz == 3"></Modulethree>
-        <div class="yangshi">
+        <div class="Hotop"></div>
+        <div class="Homeimg" ref="mybox">
+            <div class="shouye_wrap">
+                <div class="shouye">
+                    <Titlethree></Titlethree>
+                    <Theselector v-if="iz == 1"></Theselector>
+                    <Module v-if="iz == 1"></Module>
+                    <Moduletwo v-if="iz == 2"></Moduletwo>
+                    <Modulethree v-if="iz == 3"></Modulethree>
+                </div>
+            </div>
+        </div>
+        <div class="HoBottom"></div>
+        <div class="Cyangshi">
             <el-button type="primary" plain @click="yangshitwoyi()" :autofocus='true'>分类一</el-button>
             <el-button type="primary" plain @click="yangshitwoer()">分类二</el-button>
             <el-button type="primary" plain @click="yangshitwosan()">分类三</el-button>
@@ -43,6 +51,14 @@ export default {
             iz: 2
         }
     },
+    mounted:function () {
+        var doc = document.documentElement.clientHeight
+        this.$refs.mybox.style.height = doc-200 + 'px'
+        const that = this;
+        window.onresize = function temp() {
+            that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 200}px`;
+        };
+    },
     methods: {
     // 样式按钮 
         yangshitwoyi () {
@@ -65,23 +81,34 @@ export default {
 </script>
 
 <style lang='less'>
-.TiTle {
-  border: 0px solid #fff;
-  padding: 10px 0;
+.content {
+  min-height: 250px;
+} 
+.CTiTle {
+  font-size: 14px;
+  color: #666;
+  width: 100%;
+  height: 37px;
+  line-height: 35px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-height: 28px;
+  background: #f8f8f8;
+  border: 1px solid #d1d1d1;
+  z-index: 1999;
   text-align: center;
-  position: relative;
 }
 .clear{ clear:both} 
-.yangshi {
-  position: absolute;
+.Cyangshi {
+  position: fixed;
   top: 130px;
-  right: -310px;
+  right: 30%;
 }
 // 商品列表
 .commodity {
+  width: 100%;
   position: relative;
-  -webkit-box-shadow: 0 0 0 1px #c5c5c5;
-  box-shadow: 0 0 0 1px #c5c5c5;
 }
 // input组件
 .el-input-number--mini .el-input__inner {

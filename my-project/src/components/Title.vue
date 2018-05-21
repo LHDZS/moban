@@ -2,24 +2,20 @@
   <div class="Title">
     <div class="titdiv" :style="{backgroundColor:color}">
       <div class="titleft">
-        <i class="iI"><img class="Iimg" src="../../image/xinhao.png" alt=""></i>
+        <i class="iI"><img class="Iimg" src="../../image/xinhao.png" alt="" ondragstart='return false;'></i>
         <span class="tigspan">中国联通</span>
       </div>
       <div class="titcon">12:00</div>
       <div class="titright">
         <span class="tigspan">80%</span>
-        <i class="Ii"><img class="Iimg" src="../../image/dianchi.png" alt=""></i>
+        <i class="Ii"><img class="Iimg" src="../../image/dianchi.png" alt="" ondragstart='return false;'></i>
       </div>
       <span class="titispan" :style="{backgroundColor:color}">
-        <i><img class="Iimg" src="../../image/gengduo.png" alt=""></i>
+        <i><img class="Iimg" src="../../image/gengduo.png" alt="" ondragstart='return false;'></i>
         <i></i>
-        <i><img class="Iimg" src="../../image/quanzi.png" alt=""></i>
+        <i><img class="Iimg" src="../../image/quanzi.png" alt="" ondragstart='return false;'></i>
         </span>
-      <h1>{{dats ? dats : '店铺首页'}}</h1>
-    </div>
-    <div class="right" ref="main" v-if="showhide">
-      <el-input size="mini" placeholder="请输入标题" @blur="biaot" clearable></el-input>
-      <div class="array"></div>
+      <h1 :style="{color:colorz}">{{dats ? dats : '店铺首页'}}</h1>
     </div>
   </div>
 </template>
@@ -29,61 +25,32 @@ export default {
   name: 'Title',
   props: {
       color:String,
-      showhide:Boolean
+      colorz:String,
+      showhide:Boolean,
+      title:String
     },
   data () {
     return {
       dats:'',
       visible: true,
-      http:'http://www1.xiaoniren.cn'
     }
   },
-  mounted: function () {
-    this.tit()
+  watch: {
+        title(newVal){
+            this.dats = this.title
+        }
+  },
+  mounted:function() {
+    this.dats = this.title
   },
   methods: {
-    tit () {
-      var _this = this
-      this.$ajax.get(this.http + '/weapp-config/setting')
-      .then(function (res) {
-          // 取值
-          var data = res.data.ext.ext
-          _this.dats = data.title || _this.dats
-          console.log(_this.dats)
-          console.log('首页标题请求数据成功')
-      })
-      .catch(function (err) {
-          console.log(err)
-          console.log('失败了')
-      });
-    },
-    biaot(err) {
-      this.dats = err.target.value
-      this.$emit('titl',this.dats)
-    }
+
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .Title {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    height: 64px;
-    font: inherit;
-    font-size: 100%;
-    vertical-align: baseline;
-    position: relative;
-  }
-  /* .Title:hover{
-    cursor: move;
-    border-left: 1px dashed #409EFF;
-    border-right: 1px dashed #409EFF;
-    border-top: 1px solid #409EFF;
-    border-bottom: 1px solid #409EFF;
-  } */
   .titright {
     position: absolute;
     top: 0;
@@ -125,7 +92,7 @@ export default {
     position: absolute;
     bottom: 10px;
     right: 5px;
-    padding: 2px 5px;
+    padding: 2px 2px;
     border-radius: 30px;
     border: 1px solid #ccc;
     background-color: #000;
@@ -135,7 +102,7 @@ export default {
     display: inline;
     padding-top: 20px;
     line-height: 50px;
-    font-size: 16px;
+    font-size: 13px;
     color: #fff;
     font-weight: bold;
     text-align: center;
@@ -192,7 +159,7 @@ export default {
   }
   .array::after {
     content: "";
-  width: 0;
+    width: 0;
     height: 0;
     border-style: solid;
     border-width: 6px 7px 6px 0;

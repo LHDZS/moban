@@ -3,102 +3,100 @@
         <!-- <div class="tabh" v-for="(items,keys) in list" :key="keys"> -->
             <!-- <input type="text" value="请输入"> -->
             <div class="itemh" v-for="(item,key) in list" :key="key">
-                <img class="itemimg" :src="http + item.icon" alt="">
+                <img class="itemimg" :src="item.thumb" alt="">
                 <span class="itemsp">{{item.name}}</span>
-                </div>
+            </div>
         <!-- </div> -->
         <div class="clear"></div>
     </div>
 </template>
 
 <script>
+import {https,GoodssCategory} from '../assets/BaseApi'
+
 export default {
     name:'tabheng',
     data () {
         return {
-            list: [
-                {name:'萧炎',img:'http://image.uczzd.cn/13366432910906146051.jpg'},
-                {name:'萧薰儿',img:'http://image.uczzd.cn/13366432910906146051.jpg'},
-                {name:'彩鳞',img:'http://image.uczzd.cn/13366432910906146051.jpg'},
-                {name:'小医仙',img:'http://image.uczzd.cn/13366432910906146051.jpg'},
-                {name:'林动',img:'http://www.akjunshi.com/upload/20161109/14786821711392.jpg'},
-                {name:'应欢欢',img:'http://www.akjunshi.com/upload/20161109/14786821711392.jpg'},
-                {name:'凌青竹',img:'http://www.akjunshi.com/upload/20161109/14786821711392.jpg'},
-                {name:'青檀',img:'http://www.akjunshi.com/upload/20161109/14786821711392.jpg'},
-                {name:'牧尘',img:'http://upload.shunwang.com/2014/1028/1414465183739.jpg'},
-                {name:'洛璃',img:'http://upload.shunwang.com/2014/1028/1414465183739.jpg'},
-                {name:'九幽',img:'http://upload.shunwang.com/2014/1028/1414465183739.jpg'},
-                {name:'牧云熙',img:'http://upload.shunwang.com/2014/1028/1414465183739.jpg'},
-                {name:'周元',img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520853925230&di=f7cfde542141a68b9c014316278c7ade&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F77094b36acaf2edd402cf5a8861001e938019396.jpg'},
-                {name:'苏幼薇',img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520853925230&di=f7cfde542141a68b9c014316278c7ade&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F77094b36acaf2edd402cf5a8861001e938019396.jpg'},
-                {name:'夭夭',img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520853925230&di=f7cfde542141a68b9c014316278c7ade&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F77094b36acaf2edd402cf5a8861001e938019396.jpg'},
-                {name:'吞吞',img:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1520853925230&di=f7cfde542141a68b9c014316278c7ade&imgtype=0&src=http%3A%2F%2Fd.hiphotos.baidu.com%2Fzhidao%2Fpic%2Fitem%2F77094b36acaf2edd402cf5a8861001e938019396.jpg'}
-            ],
-            http: 'https://www.xiaoniren.cn'
+            list:[
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'2',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'3',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'4',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'5',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'6',price:'999.99'},
+             ],
+            https:'https://www.xiaoniren.cn'
         }
     },
     mounted:function () {
-      this.ajax()
+    //   this.ajax()
   },
   methods: {
-      ajax() {
-        var _this = this
-        this.list = []
-        this.$ajax.get(this.http + '/restapi/goods-category', {
-            params: {
-            merchant_id : 130,
-            type : 0,
-            }
-        })
-        .then(function (res) {
-            var dait = res.data.data.items
-            for (var k in dait) {
-                if (dait[k].level == 1) {
-                    _this.list.push(dait[k])
-                }
-            }
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
-      },
+    //   ajax() {
+    //     var _this = this
+    //     this.list = []
+    //     this.$ajax.get(GoodssCategory, {
+    //         params: {
+    //         merchant_id : 130,
+    //         type : 0,
+    //         }
+    //     })
+    //     .then(function (res) {
+    //         var dait = res.data.data.items
+    //         for (var k in dait) {
+    //             if (dait[k].level == 1) {
+    //                 _this.list.push(dait[k])
+    //             }
+    //         }
+    //     })
+    //     .catch(function (err) {
+    //         console.log(err);
+    //     });
+    //   },
   }
 }
 </script>
 
 <style>
     .tabheng {
-        width: 98%;
-        padding: 10px 3px;
-        height: 500px;
+        width: 100%;
         overflow: auto;
         background-color: #f1f1f1;
         margin: 0;
     }
+    .tabheng::-webkit-scrollbar {display:none}
     clear{ clear:both} 
     .tabh {
         width: 100%;
         height: 100%;
     }
     .itemh {
-        width: 49%;
+        width: 50%;
         height: 75px;
         line-height: 75px;
         background-color: #fff;
         border-radius: 5px;
-        margin: 1px;
+        padding: 2px 4px;
+        box-sizing: border-box;
         float: left;
     }
     .itemimg {
         width: 50%;
         height: 100%;
-        background-image: url('../assets/shili.jpg');
         background-size: 100%;
         float: left;
     }
     .itemsp {
-        width: 50%;
+        font-size: 12px;
+        width: 45%;
         height: 100%;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
         float: right;
     }
 </style>

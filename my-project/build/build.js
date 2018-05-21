@@ -3,6 +3,9 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production'
 
+// 设置域名的环境变量
+process.env.HOST_ENV = process.argv[2]
+
 const ora = require('ora')
 const rm = require('rimraf')
 const path = require('path')

@@ -1,8 +1,7 @@
 <template>
-  <div class="Navigation" v-if="NavShowHide">
+  <div class="NavSudoku" v-if="NavShowHide">
     <div class="Cbody">
-      <!-- <el-button id="shanchu" v-if="bol" type="text" @click="open3"><i class="el-icon-error col"></i></el-button> -->
-      <div :class=" menu.length%3 == 0 ? 'qishu' : 'oushu'" v-for="(item,key) in menu" :key="key">
+      <div :class=" menu.length%3 == 0 ? 'qishu' : 'oushu'" v-for="(item,key) in menu" :key="key" :style="{backgroundColor:item.bgColor}">
           <img class="icon" :src="item.icon">
           <span class="daospan">{{item.name}}</span>
           <div id="icon-div" class="icondiv" style="display:none"></div>
@@ -36,7 +35,7 @@
                 <img class="lbimg" :src="val.icon" alt="">
                 <span class="lbspan">{{val.name}}</span>
             </div>
-            <el-button class="navshanchu" v-if="key == ine" type="text" @click="handleRemove(ine,val.name)"><i class="el-icon-error nav"></i></el-button>
+            <el-button class="navshanchu" v-if="key == ine" type="text" @click="handleRemove(ine)"><i class="el-icon-error nav"></i></el-button>
           </li>
           <div class="clear"></div>
         </ul>
@@ -78,6 +77,11 @@
                     :placeholder="pageu"
                   ></el-cascader>
                 </div>
+                <div class="zhanwei"></div>
+                <div class="Navdiv">
+                  <span class="Span">修改颜色：</span>
+                  <el-color-picker class="yanse" v-model="color3" @change="Navbackcolor"></el-color-picker>
+                </div>
             </div>
             <div class="clear"></div>
             <!-- 商品详情小页面 -->
@@ -89,12 +93,12 @@
 <script>
 import Xiangqing from "../components/comm/xiangqing"
 import Danyemian from "../components/comm/danyemian"
-import Imageupload from "../components/comm/Imageupload"
 import Fenleiye from "../components/comm/fenleiye"
+import Imageupload from "../components/comm/Imageupload"
 import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
 
 export default {
-  name: 'Navigation',
+  name: 'NavSudoku',
   components: {
     Xiangqing,
     Imageupload,
@@ -112,20 +116,43 @@ export default {
   data () {
       return {
         menu:[
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单1',
-            page:'http://www.xiaoniren.cn'},
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单2',
-            page:'http://www.xiaoniren.cn'},
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单3',
-            page:'http://www.xiaoniren.cn'},
-            {icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-            name:'菜单4',
-            page:'http://www.xiaoniren.cn'}
+{
+              "name": "堂食",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "goods?title=堂食",
+              "bgColor": "#d17b00"
+            },
+            {
+              "name": "外卖",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "goods?title=外卖",
+              "bgColor": "#556cf0"
+            },
+            {
+              "name": "在线预订",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "",
+              "bgColor": "#7883ff"
+            },
+            {
+              "name": "我的订单",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "memberInfo?index=4",
+              "bgColor": "#c90013"
+            },
+            {
+              "name": "我的收藏",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "collection",
+              "bgColor": "#f3aa41"
+            },
+            {
+              "name": "个人中心",
+              "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
+              "page": "me",
+              "bgColor": "#00c800"
+            }
         ],
-        Vred:false,
         restapi:'',
         radio: '1',
         Navplaceholder: '',
@@ -133,6 +160,7 @@ export default {
         namedisable: true,
         pagedisable: true,
         NavShowHide:true,
+        // Navtype:true,
         type:'',
         NavynMK:true,
         limi: 4,
@@ -142,21 +170,23 @@ export default {
         icons:'',
         key: null,
         bol: false,
+        color3: '#fff',
         paget:['value'],
+        Vred:false,
         opitem: [],
         options :[
           {
             value: 'pages/article?id=',
             label: '单页',
           },{
-            value: 'pages/categoryInfo?id=',
-            label: '分类1',
+            value: '889',
+            label: '新闻',
           },{
-            value: 'pages/categoryScrollDetail?id=',
-            label: '分类2',
+            value: '888',
+            label: '介绍',
           },{
-            value: 'pages/categoryInfoTopScroll?id=',
-            label: '分类3',
+            value: 'tiaozhuan',
+            label: '跳转',
           },{
             value: 'gbook',
             label: '调查',
@@ -191,6 +221,10 @@ export default {
       this.navjava (id)
   },
   methods: {
+    Navbackcolor (e) {
+        this.menu[this.key].bgColor = e
+        this.$emit('naviga',this.menu)
+    },
     // 请求导航栏地址的数据
     navjava (id) {
       var _this = this
@@ -271,9 +305,9 @@ export default {
     queren (id) {
       this.shangchuan = false
       var sss = {
-        name: '菜单'+ (this.menu.length+1),
+        name: '菜单'+this.key,
         icon: http + id.value,
-        page: 'http://'
+        page: 'page'
       }
       this.key = this.menu.length
       this.names = sss.name
@@ -288,8 +322,6 @@ export default {
     querenxiugai (id) {
       this.xiugaishangchuan = false
       this.menu[this.key].icon = http + id.value
-      this.icons = http + id.value
-      console.log(http)
       this.$emit('naviga',this.menu)
     },
     // 关闭图片小窗口
@@ -311,7 +343,7 @@ export default {
       var s = p.substring(p.indexOf("=")+1,p.length);
       var reg = new RegExp(s);
       var a = p.replace(reg,"");
-      this.menu[this.key].page = a+id || this.menu[this.key].page
+      this.menu[this.key].page = a + id || this.menu[this.key].page
       console.log(this.menu)
       this.$emit('naviga',this.menu)
     },
@@ -320,7 +352,7 @@ export default {
       var s = p.substring(p.indexOf("=")+1,p.length);
       var reg = new RegExp(s);
       var a = p.replace(reg,"");
-      this.menu[this.key].page = a+id || this.menu[this.key].page
+      this.menu[this.key].page = a + id || this.menu[this.key].page
       console.log(this.menu)
       this.$emit('naviga',this.menu)
     },
@@ -338,7 +370,6 @@ export default {
       console.log(value[0])
       this.menu[this.key].page = value[0] || 'page'
       this.$emit('naviga',this.menu)
-      // if (value[0].match(/[\?]/g)) {
         if (value[0] == "goodsInfo?id=") {
           this.xiangqing = true
           console.log('商品页')
@@ -348,7 +379,6 @@ export default {
         }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
           this.Fxiangqing = true
         }
-      // }
     },
     xqguanbi (e) {
         this.xiangqing = false
@@ -378,8 +408,8 @@ export default {
       this.$emit('naviga',this.menu)
     },
     //删除数组指定元素   
-      handleRemove(ine,name) {
-        this.$confirm('确定删除“'+ name +'”吗, 是否继续?', '提示', {
+      handleRemove(ine) {
+        this.$confirm('删除当前导航, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -397,41 +427,23 @@ export default {
             });          
         });
       },
-    //删除组件
-      // open3() {
-      //     this.$confirm('删除当前导航组件, 是否继续?', '提示', {
-      //     confirmButtonText: '确定',
-      //     cancelButtonText: '取消',
-      //     type: 'warning'
-      //     }).then(() => {
-      //     this.navigs.splice(this.index,1);
-      //     // this.$emit('delChange', this.index)
-      //     this.$message({
-      //         type: 'success',
-      //         message: '删除成功!',
-      //     });
-      //     }).catch(() => {
-      //     this.$message({
-      //         type: 'info',
-      //         message: '已取消删除'
-      //     });          
-      //     });
-      // },
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.Navigation {
+.NavSudoku {
     width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
     position: relative;
-    border: 1px solid #fff;
-    box-sizing:border-box;
 }
 .Cbody {
   width: 100%;
   height: 100%;
+  border: 1px solid #fff;
+  box-sizing: border-box;
 }
 .Cbody:hover {
     cursor: move;
@@ -442,27 +454,30 @@ export default {
 }
 .clear{ clear:both} 
 .oushu {
-    padding: 8px 0px;
-    width: 25%;
-    height: 60px;
-    line-height: 20px;
+    padding: 2px;
+    width: 33.3333%;
+    height: 90px;
+    box-sizing: border-box;
     float: left;
 }
 .qishu {
-    padding-top: 10px;
-    width: 33.333%;
-    height: 70px;
-    line-height: 20px;
+    padding-top: 15px;
+    width: 47.6%;
+    height: 90px;
+    margin: 3px;
+    box-sizing: border-box;
     float: left;
 }
 .icon {
-    width: 40px;
-    height: 40px;
+    width: 25%;
+    line-height: 90px;
+    text-align: center;
 }
 .daospan {
     display:block;
     width: 100%;
     height: 20px;
+    color: #fff;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -590,5 +605,9 @@ input {
 }
 .Navwailian {
   margin-left: 15px;
+}
+.Stuimg {
+    width: 100%;
+    height: 100%;
 }
 </style>

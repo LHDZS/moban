@@ -19,6 +19,10 @@ const createLintingRule = () => ({
   }
 })
 
+// 设置环境变量
+var webpack = require('webpack')
+require('../config/host-conf')
+
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
@@ -93,5 +97,12 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  // 通过webpack传入客户端中
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.HOST_NAME': '\"' + process.env.HOST_NAME + '\"',
+      "process.env.BACK_NAME": '\"' + process.env.BACK_NAME + '\"'
+    })
+  ]
 }

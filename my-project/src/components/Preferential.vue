@@ -1,19 +1,56 @@
 <template>
-  <div class="preferential">
-    <div class="youhuijuan">{{youhui}}</div>
-    <div class="youhui" :style="{borderColor:color}">
-        <span class="you1" :style="{color:color}">{{you1}}</span>
-        <span class="you2">{{you2}}</span>
-        <span class="you3" :style="{color:color}">{{you3}}</span>
-        <div class="liji" :style="{backgroundColor:color}">立即领取</div>
+  <div class="preferential" v-if="PrShowHide">
+    <div class="Preber">
+        <!-- <div :class="youhuiyangshi" v-if="index < num" v-for="(item,index) in youhui" :key="index"> -->
+        <!-- <div class="youhuijuan">{{item.coupon_desc}}</div> -->
+        <!-- <div class="youhui" :style="{borderColor:color,height:height+'px'}">
+            <span class="you1" :style="{color:color}">{{item.face_value}}</span>
+            <span class="you2">满{{item.order_odds}}元可用</span>
+            <span class="you3" :style="{color:color}">{{item.coupon_name}}</span>
+            <div :class="lingqu" :style="{backgroundColor:color}">立即领取</div>
+        </div> -->
+        <div class="YHJ1" v-if="PreImg == 1">
+            <img class="youhuijuan1"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248207109243.png" alt="">
+            <div class="clear"></div>
+        </div>
+        <div class="YHJ1" v-if="PreImg == 2">
+            <img class="youhuijuan2"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254803843941.png" alt="">
+            <img class="youhuijuan2"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254803843941.png" alt="">
+            <div class="clear"></div>
+        </div>
+        <div class="YHJ1" v-if="PreImg == 3">
+            <img class="youhuijuan3"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png" alt="">
+            <img class="youhuijuan3"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png" alt="">
+            <img class="youhuijuan3"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png" alt="">
+            <div class="clear"></div>
+        </div>
+        <!-- <div v-if="index < num" v-for="(item,index) in youhui" :key="index">
+            <img :class="youhuiyangshi" :src="item.img" alt="">
+        </div> -->
+        <!-- </div> -->
     </div>
-    <!-- <div class="right">
-      优惠名称：<input v-model="youhui" :change="youh(youhui)"/>
-      优惠价格：<input v-model="you1" :change="youh(you1)"/>
-      满减名称：<input v-model="you2" :change="youh(you2)"/>
-      礼包名称：<input v-model="you3" :change="youh(you3)"/>
-      <div class="array"></div>
-    </div> -->
+    <div class="Prright">
+        <div class="Sdianzhao"><i></i><span>优惠券设置</span></div>
+        <div class="Swcaozuo" v-if="Prtype">
+        <span class="Span" style="margin-top:0px">模块配置：</span>
+            <div class="SwLunbo" style="width:140px">
+                <span class="YesNoLb" style="marginRight:6px">是否显示</span>
+                <div class="YesNo">
+                    <span class="Yes" :class="PrynMK ? 'pitch' : '' "  @click="PrYesMK()">是</span>
+                    <span class="No" :class="!PrynMK ? 'pitch' : '' "  @click="PrNoMK()">否</span>
+                </div>
+            </div>
+        </div>
+        <div class="Pref_fengge">
+            <span class="Span">排列风格：</span>
+            <div class="Prefenggexuanze" >
+                <div class="Pigeshu" v-for="(item,index) in yhxz" :key="index" @click="geshu(item.name,item.id,item.lingqu)">
+                    <img class="Pfgimg" :src="item.img" alt="">
+                    <span>{{item.pap}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -21,19 +58,86 @@
 export default {
   name: 'preferential',
   props: {
-      color: String
+      color: String,
+      Appid: Number,
+      PrShowHide: Boolean,
+      Prtype: Boolean,
+      PrynMK: Boolean
   },
   data () {
       return {
-        youhui:'优惠券',
-        you1:'5.00',
-        you2:'满100.00可用',
-        you3:'春节大礼包',
+        PreImg: 1,
+        // youhui: [
+        //     {img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248207109243.png'},
+        //     {img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png'}
+        // ],
+        ceshi:[],
+        youhuiyangshi: 'youhuijuan1',
+        lingqu: 'liji',
+        num: 1,
+        height: 65,
+        // PrynMK:true,
+        yhxz: [
+          {name:'youhuijuan1', id:1,pap:'一列',lingqu:'liji',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+          {name:'youhuijuan2',id:2,pap:'双列',lingqu:'liji',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+          {name:'youhuijuan3',id:3,pap:'三列',lingqu:'liji2',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+        ]
       }
   },
+  mounted:function() {
+      
+  },
   methods: {
+    PrYesMK () {
+        this.PrynMK = true
+        var Show = true
+        this.$emit('PrShowHide',Show)
+    },
+    PrNoMK () {
+        this.PrynMK = false
+        var Hide = false
+        this.$emit('PrShowHide',Hide)
+    },
     youh(i) {
       this.$emit('youhui',i)
+    },
+    // youhuijuan () {
+    //   var _this = this
+    //   this.$ajax.get(this.http + "/restapi/wechat-coupon", {
+    //       params: {
+    //           config_id  : 56,
+    //           apps_openid : this.Appid
+    //       }
+    //   })
+    //   .then(function (res) {
+    //       // console.log(res)
+    //       _this.youhui = res.data.data
+    //       _this.ceshi = res.data.data
+    //       console.log('优惠券请求数据成功')
+    //   })
+    //   .catch(function (err) {
+    //       console.log(err)
+    //       console.log('优惠券请求失败了')
+    //   });
+    // },
+    geshu (name,id,lingqu) {
+    //   this.youhuiyangshi = name
+    //   this.lingqu = lingqu
+      this.PreImg = id
+      // console.log(this.youhui)
+    //   this.youhui = this.ceshi
+    //   for (var i=0;i<id;i++) {
+    //       let yh = {coupon_desc:'优惠券',face_value:'66',order_odds:'666',coupon_name:'优惠价'}
+    //       if (!this.youhui[i]) {
+    //           this.youhui.push(yh)
+    //       }
+    //   }
+    //   this.youhui.length = id
+    //   if (id == 3) {
+    //     this.height = 85
+    //   }else {
+    //     this.height = 65
+    //   }
     }
   }
 }
@@ -50,25 +154,53 @@ export default {
     box-sizing: border-box;
     min-height: 10px;
     position: relative;
-    padding-bottom: 5px;
 }
-.preferential:hover {
+.Preber {
+    border: 1px solid #fff;
+}
+.Preber:hover {
   cursor: move;
   border-left: 1px dashed #409EFF;
   border-right: 1px dashed #409EFF;
   border-top: 1px solid #409EFF;
   border-bottom: 1px solid #409EFF;
 }
+.YHJ1 {
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+}
+.youhuijuan1 {
+  width: 100%;
+  height: 60px;
+  padding: 2px;
+  box-sizing: border-box;
+  float: left;
+}
+.youhuijuan2 {
+  width: 50%;
+  height: 60px;
+  padding: 2px;
+  box-sizing: border-box;
+  float: left;
+}
+.youhuijuan3 {
+  width: 33.33333%;
+  height: 60px;
+  padding: 2px;
+  box-sizing: border-box;
+  float: left;
+}
 .youhuijuan {
     padding: 5px;
     font-size: 14px;
     font-weight: bold;
+    position: relative;
 }
 .youhui {
     width: 90%;
     margin: 0 auto;
     border: 1px solid red;
-    height: 65px;
     border-radius: 5px;
     position: relative;
 }
@@ -81,8 +213,14 @@ export default {
 .you2 {
     position: absolute;
     top: 30px;
-    left: 5px;
+    left: 0px;
+    text-align: left;
+    margin-left: 3px;
+    width: 90%;
     font-size: 10px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .you3 {
     position: absolute;
@@ -99,20 +237,33 @@ export default {
     height: 100%;
     font-size: 5px;
     overflow: hidden;
-    /* border-radius: 5px;  */
 }
-.right {
+.liji2 {
+  color: #fff;
+  background-color: red;
+  width: 100%;
+  height: 20px;
+  font-size: 5px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  overflow: hidden;
+}
+.Prright {
+  display: none;
   font-size: 14px;
   color: #666;
-  width: 260px;
-  position: absolute;
-  right: -310px;
-  top: 5px;
-  padding: 12px 10px;
-  min-height: 28px;
+  width: 599px;
+  cursor: default;
+  position: fixed;
+  left: 34%;
+  top: 8px;
+  padding: 28px 17px 15px 17px;
+  text-align: left;
   background: #f8f8f8;
   border-radius: 5px;
   border: 1px solid #d1d1d1;
+  z-index: 1999;
 }
 input {
   width: 180px;
@@ -122,25 +273,11 @@ input {
   border-radius: 5px;
   border:1px solid #DBDBDB;
 }
-.array {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 6px 7px 6px 0;
-  border-color: transparent #d1d1d1 transparent transparent;
-  position: absolute;
-  left: -8px;
-  top: 8px;
+.Pref_fengge {
+    width: 100%;
 }
-.array::after {
-  content: "";
- width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 6px 7px 6px 0;
-  border-color: transparent #f8f8f8 transparent transparent;
-  position: absolute;
-  left: 2px;
-  top: -6px;
+.Prefenggexuanze {
+    width: 400px;
+    float: left;
 }
 </style>

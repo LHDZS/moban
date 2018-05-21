@@ -6,7 +6,7 @@
                 <div class="mbtop">{{item.name}}</div>
                 <div class="mbleft">
                     <span class="price">￥{{item.price}}</span>
-                    <span class="prices">￥{{item.market_price}}</span>
+                    <!-- <span class="prices">￥{{item.market_price}}</span> -->
                 </div>
                 <div class="mbright">立即购买</div>
             </div>
@@ -16,43 +16,30 @@
 </template>
 
 <script>
+import {http,Goodss,GoodssCategory} from '../assets/BaseApi'
+
 export default {
   name:'module',
   data () {
       return {
           list:[
-              {name:'苹果',img:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4036913110,470345339&fm=27&gp=0.jpg',
-              price:'15',prices:'20',goumai:'立即购买'},
-              {name:'苹果',img:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4036913110,470345339&fm=27&gp=0.jpg',
-              price:'15',prices:'20',goumai:'立即购买'},
-              {name:'苹果',img:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4036913110,470345339&fm=27&gp=0.jpg',
-              price:'15',prices:'20',goumai:'立即购买'},
-              {name:'苹果',img:'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=4036913110,470345339&fm=27&gp=0.jpg',
-              price:'15',prices:'20',goumai:'立即购买'}
-          ],
-          http: 'https://www.xiaoniren.cn'
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'2',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'3',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'4',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'5',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'6',price:'999.99'},
+             ],
+          http:''
       }
   },
   mounted:function () {
-      this.ajax()
+      
   },
   methods:{
-        ajax (style) {
-            var _this = this
-            this.$ajax.get(this.http + '/restapi/goods', {
-                params: {
-                merchant_id : 130,
-                page : 1,
-                per_page : 100
-                }
-            })
-            .then(function (res) {
-                _this.list = res.data.data.items
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
-        }         
+           
   }
 }
 </script>
@@ -61,13 +48,14 @@ export default {
     .clear{ clear:both}
     .module {
         width: 100%;
-        height: 500px;
+        height: 100%;
         overflow: auto;
-        margin: 0px 2px;
-        padding-top: 3px; 
+        padding-top: 3px;
+        box-sizing: border-box;
     }
+    .module::-webkit-scrollbar {display:none}
     .zimokua {
-        width: 47%;
+        width: 47.54%;
         height: 200px;
         margin: 2px 3px;
         float: left;

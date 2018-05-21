@@ -6,7 +6,7 @@
         <div class="moright" id="top" @scroll="handleScroll">
             <div class="Mboot" v-for="(item,key) in list" :key="key">
                 <div class="Mname">{{item.name}}</div>
-            <div class="Mblock"  v-for="(value,index) in item.arr" :key='index'>
+            <div class="Mblock"  v-for="(value,index) in items" :key='index'>
                 <img class="mimg" :src="http + value.thumb" alt="">
                 <div class="mright">
                     <div class="m_name">{{value.name}}</div>
@@ -24,29 +24,40 @@
 
 <script src="https://cdn.staticfile.org/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
+import {https,Goodss,GoodssCategory} from '../assets/BaseApi'
+
 export default {
   name:'moduletwo',
   data() {
      return {
          zise:[],
-         list:['斗破苍穹','武动乾坤','大主宰','元尊'],
+         list:[
+             {name:'分类1',id:'1'},
+             {name:'分类2',id:'2'},
+             {name:'分类3',id:'3'},
+             {name:'分类4',id:'4'},
+             {name:'分类5',id:'5'},
+             {name:'分类6',id:'6'},
+             {name:'分类7',id:'7'},
+         ],
          items:[
-             [{name:'萧炎'},{name:'萧薰儿'},{name:'彩鳞'},{name:'小医仙'}],
-             [{name:'林动'},{name:'应欢欢'},{name:'凌青竹'},{name:'青檀'}],
-             [{name:'牧尘'},{name:'洛璃'},{name:'九幽'},{name:'牧小公主'}],
-             [{name:'周元'},{name:'苏幼薇'},{name:'夭夭'},{name:'吞吞'}]
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'2',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'3',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'4',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'5',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'6',price:'999.99'},
              ],
          ky: 0,
-         http: 'https://www.xiaoniren.cn',
-         scrollTop: 4
+         scrollTop: 4,
+         http:''
      }
   },
   mounted:function () {
-      this.ajax()
-      this.shangpin()
       this.ky = 0
       this.handleScroll()
-    //   window.addEventListener('scroll',this.handleScroll)
   },
   methods: {
       xuanzhong(key) {
@@ -59,55 +70,54 @@ export default {
             }
         }
       },
-      ajax() {
-        var _this = this
-        this.$ajax.get(this.http + '/restapi/goods-category', {
-            params: {
-            merchant_id : 130,
-            type : 0,
-            }
-        })
-        .then(function (res) {
-            let dd = {}
-            var dait = res.data.data.items
-            for (var k in dait) {
-                if (dait[k].level == 1) {
-                    _this.zise.push(dait[k])
-                }
-            }
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
-      },
-      shangpin () {
-            var _this = this
-            this.$ajax.get(this.http + '/restapi/goods', {
-                params: {
-                merchant_id : 130,
-                page : 1,
-                per_page : 100
-                }
-            })
-            .then(function (res) {
-                var data = res.data.data.items
-                for (var i in data) {
-                    for (var j in _this.zise) {
-                        if (_this.zise[j].id == data[i].category_id) {
-                            if (!_this.zise[j].arr) {
-                                _this.zise[j].arr = []
-                            }
-                            _this.zise[j].arr.push(data[i])
-
-                        }
-                    }
-                }
-                _this.list = _this.zise
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
-        },
+    //   ajax() {
+    //     var _this = this
+    //     this.$ajax.get(GoodssCategory, {
+    //         params: {
+    //         merchant_id : 130,
+    //         type : 0,
+    //         }
+    //     })
+    //     .then(function (res) {
+    //         let dd = {}
+    //         var dait = res.data.data.items
+    //         for (var k in dait) {
+    //             if (dait[k].level == 1) {
+    //                 _this.zise.push(dait[k])
+    //             }
+    //         }
+    //     })
+    //     .catch(function (err) {
+    //         console.log(err);
+    //     });
+    //   },
+    //   shangpin () {
+    //         var _this = this
+    //         this.$ajax.get(Goodss, {
+    //             params: {
+    //             merchant_id : 130,
+    //             page : 1,
+    //             per_page : 100
+    //             }
+    //         })
+    //         .then(function (res) {
+    //             var data = res.data.data.items
+    //             for (var i in data) {
+    //                 for (var j in _this.zise) {
+    //                     if (_this.zise[j].id == data[i].category_id) {
+    //                         if (!_this.zise[j].arr) {
+    //                             _this.zise[j].arr = []
+    //                         }
+    //                         _this.zise[j].arr.push(data[i])
+    //                     }
+    //                 }
+    //             }
+    //             _this.list = _this.zise
+    //         })
+    //         .catch(function (err) {
+    //             console.log(err);
+    //         });
+    //     },
         // 滑动滚动
         // goAnchor(selector) {
         //     var anchor = this.$el.querySelector(selector)
@@ -136,10 +146,11 @@ export default {
 <style>
     .moduletwo{
         width: 100%;
-        height: 500px;
+        height: 100%;
         position: relative;
         background-color: #f3f3f3;
     }
+    .moright::-webkit-scrollbar {display:none}
     .clear{ clear:both} 
     .modul {
         width: 20%;
@@ -148,8 +159,10 @@ export default {
         list-style:none;
         padding: 0;
         margin: 0;
+        overflow: auto;
         border-right: 2px solid #e0e0e0;
     }
+    .modul::-webkit-scrollbar {display:none}
     .modli {
         width: 100%;
         height: 30px;

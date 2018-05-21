@@ -1,5 +1,5 @@
 <template>
-  <div class="Title">
+  <div class="TitleThree">
     <div>
       <h1><span ref="title">{{title ? title : '商品列表'}}</span></h1>
     </div>
@@ -31,16 +31,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .Title {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    height: 64px;
-    font: inherit;
-    font-size: 100%;
-    vertical-align: baseline;
-    position: relative;
-  }
+.TitleThree {
+  width: 100%;
+  height: 64px;
+}
   h1 {
     padding: 18px 60px 0 60px;
     height: 46px;
@@ -50,12 +44,13 @@ export default {
     font-weight: bold;
     text-align: center;
     background: url(../assets/title.png) no-repeat;
+    background-size: 100% 100%;
     margin: 0;
   }
   span{
     display: inline-block;
     height: 46px;
-    width: 200px;
+    width: 150px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

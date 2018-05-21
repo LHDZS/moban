@@ -5,6 +5,7 @@
             <span class="Tspan">销量<i class="Tsi"><img class="Tsimgs" src="../../image/sjs.png" alt=""><img class="Tsimgx" src="../../image/sjxh.png" alt=""></i></span>
             <span class="Tspan">价格<i class="Tsi"><img class="Tsimgs" src="../../image/sjs.png" alt=""><img class="Tsimgx" src="../../image/sjxh.png" alt=""></i></span>
             <span class="Tspan"><div class="i"></div></span>
+            <div class="clear"></div>
         </div>
     </div>
 </template>

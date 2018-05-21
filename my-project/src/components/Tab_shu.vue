@@ -4,8 +4,8 @@
             <li class="tabli" :class="ky == key ? 'bor' : ''" @click="xuanzhong(item.id,key)" v-for="(item,key) in list" :key='key'>{{item.name}}</li>
         </ul>
         <div class="Cblock">
-            <div class="itemz" v-for="(value,index) in items" :key='index' v-if="id == value.parent_id">
-                <img class="Cblock_img" :src="http + value.icon" alt="">
+            <div class="itemz" v-for="(value,index) in items" :key='index' v-if="id == value.id">
+                <img class="Cblock_img" :src="value.thumb" alt="">
                 <span class="Cblock_span">{{value.name}}</span>
             </div>
         </div>
@@ -13,55 +13,37 @@
     </div>
 </template>
 
+
 <script>
+import {https,GoodssCategory} from '../assets/BaseApi'
+
 export default {
   name:'tabshu',
   data() {
      return {
-         list:['斗破苍穹','武动乾坤','大主宰','元尊'],
+         list:[{name:'分类1',id:1},{name:'分类2',id:2},{name:'分类3',id:3},{name:'分类4',id:4}],
          items:[
-             [{name:'萧炎'},{name:'萧薰儿'},{name:'彩鳞'},{name:'小医仙'}],
-             [{name:'林动'},{name:'应欢欢'},{name:'凌青竹'},{name:'青檀'}],
-             [{name:'牧尘'},{name:'洛璃'},{name:'九幽'},{name:'牧小公主'}],
-             [{name:'周元'},{name:'苏幼薇'},{name:'武煌'},{name:'小兽'}]
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'1',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'2',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'3',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'4',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'5',price:'999.99'},
+             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'6',price:'999.99'},
              ],
          ky: 0,
-         id: 90,
-         http: 'https://www.xiaoniren.cn'
+         id: 1,
+         https:'https://www.xiaoniren.cn'
      }
   },
   mounted:function () {
-      this.ajax()
+      
   },
   methods: {
       xuanzhong(id,key) {
           this.ky = key
           this.id = id
-      },
-      ajax() {
-        var _this = this
-        this.list = []
-        this.items = []
-        this.$ajax.get(this.http + '/restapi/goods-category', {
-            params: {
-            merchant_id : 130,
-            type : 0,
-            }
-        })
-        .then(function (res) {
-            var dait = res.data.data.items
-            for (var k in dait) {
-                if (dait[k].level == 0) {
-                    _this.list.push(dait[k])
-                }
-                if (dait[k].level == 1) {
-                    _this.items.push(dait[k])
-                }
-            }
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
       },
   }
 }
@@ -71,9 +53,7 @@ export default {
 <style>
     .tabshu{
         width: 100%;
-        height: 500px;
         position: relative;
-        background-color: #f3f3f3;
     }
     .clear{ clear:both} 
     .tabul {
@@ -93,16 +73,17 @@ export default {
         box-sizing:border-box;
     }
     .bor {
-        border: 2px solid #e0e0e0;
-        border-left: 2px solid red;
+        border: 1px solid #e0e0e0;
+        border-left: 1px solid red;
         background-color: #fff;
     }
     .Cblock {
-        width: 78%;
+        width: 77%;
         height: 100%;
         float: right;
         padding-top: 5px;
         margin-left: 6px; 
+        box-sizing: border-box;
         overflow: auto;
     }
     .itemz {
@@ -116,14 +97,19 @@ export default {
     }
     .Cblock_img {
         width: 100%;
-        height: 80%;
+        height: 70%;
         background-image: url('../assets/logo.png');
         background-size: 100%;
         float: left;
     }
     .Cblock_span {
         width: 100%;
-        height: 20%;
-        font-size: 14px;
+        height: 30px;
+        font-size: 12px;
+        text-align: left;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
     }
 </style>
