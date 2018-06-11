@@ -1,40 +1,32 @@
 <template>
     <div class="Dxiangqing" v-if="Dyincang">
-        <div class="xuanzechuankou">
-        <div class="xzckTop">
-            <el-button class="X" type="text" @click="guanbi"><i class="el-icon-error col"></i></el-button>
-            <div class="xzfuwenben">富文本单页面</div>
-            <div style="width: 10px; display: inline-block;"></div>
-        </div>
-        <!-- 中间部分 -->
-        <div class="DxzckMiddle">
-            <div class="xzPrice">
-                <div class="dyimg">图片</div>
-                <div class="dyname">名称</div>
+        <div class="Dxuanzechuankou">
+            <div class="xzckTop">
+                <el-button class="X" type="text" @click="guanbi"><i class="el-icon-error col"></i></el-button>
+                <div class="xzfuwenben">富文本单页面</div>
+                <div style="width: 10px; display: inline-block;"></div>
             </div>
-            <div class="xzMdiv" v-for="(item,index) in items" :key="index">
-                <img class="dyMimg" :src="http + item.icon" alt="">
-                <span class="dyMspan">{{item.title}}</span>
-                <div class="xzMxuanze" @click="xuanzedaole(item.id)">
-                    <span v-if="item.id != id" class="XuanZe">选择</span>
-                    <span v-if="item.id == id" class="YiXuanZe">已选择</span>
+            <!-- 中间部分 -->
+            <div class="DxzckMiddle">
+                <div class="xzPrice">
+                    <div class="dyimg">图片</div>
+                    <div class="dyname">名称</div>
+                </div>
+                <div class="xzMdiv" v-for="(item,index) in items" :key="index">
+                    <img class="dyMimg" :src="http + item.icon" alt="">
+                    <span class="dyMspan">{{item.title}}</span>
+                    <div class="xzMxuanze" @click="xuanzedaole(item.id)">
+                        <span v-if="item.id != id" class="XuanZe">选择</span>
+                        <span v-if="item.id == id" class="YiXuanZe">已选择</span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- 底部 -->
-        <div class="xzckBottom">
-            <div class="block">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-size="perpage"
-                layout="total, prev, pager, next, jumper"
-                :total="Totalpages">
-            </el-pagination>
-            <el-button class="xzqueren" @click="guanbi" size="mini" type="primary">确认</el-button>
+            <!-- 底部 -->
+            <div class="xzckBottom">
+                <div class="block">
+                <el-button class="xzqueren" @click="guanbi" size="mini" type="primary">确认</el-button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </template>
@@ -46,61 +38,22 @@ export default {
     name:'Dxiangqing',
     props: {
         Dyincang:Boolean,
-        MerchantId:Number
+        items:Array
     },
     data () {
         return {
-            // 搜索名字
-            ssname: '',
-            // 第几页
-            page:1,
+            // 分页页数记录
             currentPage4: 1,
-            // 一页显示多少个
-            perpage:3,
-            // 分类选择
-            flxz: null,
             // 总页
             Totalpages:1,
             // 分类
             options :[],
             id:null,
             value: '',
-            items:[
-                {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
-                {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
-                {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
-            ],
             http: ''
         }
     },
-    watch: {
-        MerchantId(newVal){
-            this.shangpin()
-        }
-    },
-
     methods: {
-        // 商品详情
-        shangpin () {
-            var _this = this
-            this.$ajax.get(WechatPage, {
-                params: {
-                    merchant_id : this.MerchantId,
-                    page: this.page,
-                    per_page:this.perpage,
-                    name: this.ssname || '',
-                    category_id: this.flxz
-                }
-            })
-            .then(function (res) {
-                _this.items = res.data.data || _this.items
-                _this.http = http
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('商品详情请求失败了')
-            });
-        },
         // 选中了分类项
         xuanzhong (e) {
             this.flxz = e
@@ -125,9 +78,9 @@ export default {
         guanbi () {
             this.$emit('Dxqguanbi',this.Dyincang)
         },
-        xuanzedaole (id,ind) {
+        xuanzedaole (id) {
             this.id = id
-            this.$emit('Dchoose', id,ind)
+            this.$emit('Dchoose', id)
         }
     }
 }
@@ -144,7 +97,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 2000;
 }
-.xuanzechuankou {
+.Dxuanzechuankou {
     width: 600px;
     background-color: #fff;
     margin: 0 auto;

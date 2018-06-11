@@ -5,12 +5,12 @@
             <el-button class="X" type="text" @click="guanbi"><i class="el-icon-error col"></i></el-button>
             <span>搜索商品</span>
             <el-select style="padding: 12px 0px;" :clearable="true" v-model="value" size="mini" @change="xuanzhong" placeholder="所有分组">
-            <el-option
-                v-for="item in optione"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-            </el-option>
+                <el-option
+                    v-for="item in optione"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+                </el-option>
             </el-select>
             <el-input
             style="width:170px"
@@ -41,15 +41,15 @@
         <!-- 底部 -->
         <div class="xzckBottom">
             <div class="block">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-size="perpage"
-                layout="total, prev, pager, next, jumper"
-                :total="Totalpages">
-            </el-pagination>
-            <el-button class="xzqueren" @click="guanbi" size="mini" type="primary">确认</el-button>
+                <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                    :page-size="perpage"
+                    layout="total, prev, pager, next, jumper"
+                    :total="Totalpages">
+                </el-pagination>
+                <el-button class="xzqueren" @click="guanbi" size="mini" type="primary">确认</el-button>
             </div>
         </div>
         </div>
@@ -63,121 +63,52 @@ export default {
     name:'xiangqing',
     props: {
         yincang:Boolean,
-        MerchantId:Number,
-        optione:Array
+        optione:Array,
+        items:Array,
+        Totalpages:Number,
+        currentPage:Number,
+        perpage: Number
     },
     data () {
         return {
-            // 搜索名字
+            // 分页页数
             ssname: '',
-            // 第几页
-            page:1,
-            // 一页显示多少个
-            perpage:3,
-            currentPage4: 1,
-            // 分类选择
-            flxz: null,
-            // 总页
-            Totalpages:1,
             id:null,
             value: '',
-            items:[
-                {name:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
-                {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
-                {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
-            ],
             lists:[{name:'图片'},{name:'名称'},{name:'价格'},{name:'库存'},{name:''}],
             http:'',
             // 分类
-            // optione:[]
         }
-    },
-    watch: {
-        MerchantId(newVal){
-            this.shangpin()
-            // this.fenlei()
-        }
-    },
-    mounted:function () {
-        var doc = document.documentElement.clientHeight
-        // this.$refs.mybox.style.height = doc-200 + 'px'
-        console.log('11111'+ this.$refs.xqbox)
-        // const that = this;
-        // window.onresize = function temp() {
-        //     that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 200}px`;
-        // };
     },
     methods: {
-        // 商品详情
-        shangpin () {
-            var _this = this
-            this.$ajax.get(Goods, {
-                params: {
-                    merchant_id : this.MerchantId,
-                    page: this.page,
-                    per_page:this.perpage,
-                    name: this.ssname || '',
-                    category_id: this.flxz
-                }
-            })
-            .then(function (res) {
-                _this.Totalpages = res.data.data._meta.totalCount
-                _this.items = res.data.data.items || _this.items
-                _this.http = http
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('商品详情请求失败了')
-            });
-        },
-        // // 分类
-        // fenlei () {
-        //     var _this = this
-        //     this.$ajax.get(GoodsCategory, {
-        //         params: {
-        //         merchant_id : this.MerchantId || 130,
-        //         }
-        //     })
-        //     .then(function (res) {
-        //         _this.optione = res.data.data.items
-        //         console.log('分类请求数据成功')
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err)
-        //         console.log('分类请求失败了')
-        //     });
-        // },
         // 选中了分类项
         xuanzhong (e) {
-            // console.log(e)
-            this.flxz = e
-            this.shangpin()
+            this.$emit('xuanzhong',e)
         },
         // 分页选择
         handleCurrentChange (j) {
-            // console.log(j)
-            this.page = j
-            this.shangpin()
+            // this.page = j
+            // this.shangpin()
+            this.$emit('paging',j)
         },
         handleSizeChange (e) {
-            // console.log(e)
+            
         },
         // 搜索商品
         sousuoname (event) {
-            // console.log(event.target.value)
             this.ssname = event.target.value
+            // this.$emit('sousuoname',event.target.value)
         },
         // 搜索按钮
         sousuo () {
-            // console.log(this.ssname)
-            this.shangpin()
+            this.$emit('sousuo',this.ssname)
         },
         guanbi () {
             this.$emit('xqguanbi',this.yincang)
         },
-        xuanzedaole (id,ind) {
+        xuanzedaole (id) {
             this.id = id
-            this.$emit('choose', id,ind)
+            this.$emit('choose', id)
         }
     }
 }
@@ -198,7 +129,7 @@ export default {
     width: 600px;
     background-color: #fff;
     margin: 0 auto;
-    max-height: 419px;
+    max-height: 450px;
     overflow-y: auto;
     position: relative;
     outline: 0;
@@ -245,8 +176,8 @@ export default {
 }
 .xzMdiv {
     width: 90%;
-    height: 60px;
-    line-height: 60px;
+    height: 75px;
+    line-height: 75px;
     border: 1px solid #ccc;
     border-top: none;
     margin: 0 auto;

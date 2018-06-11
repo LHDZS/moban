@@ -1,79 +1,80 @@
 <template>
-    <div class="pictureque" v-if="PiShowHide">
-        <div class="Cbody">
-            <div class="Pdiv" v-if="sha == 1">
-                <img :class="Pimg" v-for="(item,index) in tpimgs" :key="index" :style="{height:Pheight/2.5+'px'}" :src="item.tpimg" alt="">
-                <div class="clear"></div> 
-            </div>
-            <div class="Pdiv" v-if="sha == 2">
-                <img class="Pimg32" v-for="(item,index) in tpimgs" :key="index" :style="{height:Pheight/2.5/3-3+'px'}" :src="item.tpimg" alt="">
-            </div>
-            <div class="Pdiv" v-if="sha == 3">
-                <div class="Pfl Pimg4" :style="{height:Pheight/2.5+'px'}">
-                    <img class="Pimage" v-for="(item,index) in tpimgs" :key="index" v-if="index < 2" :style="{height:Pheight/2.5/2-2+'px'}" :src="item.tpimg" alt="">
+    <div class="pictureque">
+        <div class="Piarr" v-if="photos.display">
+            <div class="Cbody">
+                <div class="Pdiv" v-if="photos.colstyle == 1">
+                    <img :class="photos.class" v-for="(item,index) in photos.img" :key="index" :style="{height:photos.height/2.5+'px'}" :src="item.tpimg" alt="">
+                    <div class="clear"></div> 
                 </div>
-                <div class="Pfr Pimg4" :style="{height:Pheight/2.5+'px'}" v-for="(item,index) in tpimgs" :key="index" v-if="index == 2">
-                    <img class="Pimage" :src="item.tpimg" :style="{height:Pheight/2.5+'px'}" alt="">
+                <div class="Pdiv" v-if="photos.colstyle == 2">
+                    <img class="Pimg32" v-for="(item,index) in photos.img" :key="index" :style="{height:photos.height/2.5/3-3+'px'}" :src="item.tpimg" alt="">
                 </div>
-                <div class="clear"></div>
-            </div>
-            <div class="Pdiv" v-if="sha == 4">
-                <div class="Pimg56" >
-                    <img v-if="index < 4" class="Pimg5 PI5l" :style="{height:Pheight/2.5/2-2+'px'}" v-for="(item,index) in tpimgs" :key="index" :src="item.tpimg" alt="">
-                </div>
-                <img class="Pimg6" v-if="index == 4" :style="{height:Pheight/2.5+'px'}" v-for="(item,index) in tpimgs" :key="index" :src="item.tpimg" alt="">
-                <div class="clear"></div>
-            </div>
-        <div class="clear"></div>
-        </div>
-        <!-- 添加图片 -->
-        <Imageupload :shangchuan="tupianzz" v-on:queren="tupiantianjia" v-on:guanbi="guanbi"></Imageupload>
-        <!-- 添加详情 -->
-        <Danyemian :Dyincang="Dxiangqing" :MerchantId="MerchantId" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
-        <Xiangqing :yincang="xiangqingz" :optione="ArrClassify" :MerchantId="MerchantId" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele"></Xiangqing>
-        <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
-        <div class="Pright">
-            <!-- 选择器 -->
-            <div class="Sdianzhao"><i></i><span>图片设置{{Pindex}}</span></div>
-            <div class="Swcaozuo" v-if="Pitype">
-                <span class="Span" style="margin-top:0px">模块配置：</span>
-                <div class="SwLunbo" style="width:140px">
-                    <span class="YesNoLb" style="marginRight:6px">是否显示</span>
-                    <div class="YesNo">
-                        <span class="Yes" :class="PiynMK ? 'pitch' : '' "  @click="PiYesMK()">是</span>
-                        <span class="No" :class="!PiynMK ? 'pitch' : '' "  @click="PiNoMK()">否</span>
+                <div class="Pdiv" v-if="photos.colstyle == 3">
+                    <div class="Pfl Pimg4" :style="{height:photos.height/2.5+'px'}">
+                        <img class="Pimage" v-for="(item,index) in photos.img" :key="index" v-if="index < 2" :style="{height:photos.height/2.5/2-2+'px'}" :src="item.tpimg" alt="">
                     </div>
+                    <div class="Pfr Pimg4" :style="{height:photos.height/2.5+'px'}" v-for="(item,index) in photos.img" :key="index" v-if="index == 2">
+                        <img class="Pimage" :src="item.tpimg" :style="{height:photos.height/2.5+'px'}" alt="">
+                    </div>
+                    <div class="clear"></div>
                 </div>
+                <div class="Pdiv" v-if="photos.colstyle == 4">
+                    <div class="Pimg56" >
+                        <img v-if="index < 4" class="Pimg5 PI5l" :style="{height:photos.height/2.5/2-2+'px'}" v-for="(item,index) in photos.img" :key="index" :src="item.tpimg" alt="">
+                    </div>
+                    <img class="Pimg6" v-if="index == 4" :style="{height:photos.height/2.5+'px'}" v-for="(item,index) in photos.img" :key="index" :src="item.tpimg" alt="">
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="Pfengge">
-                <span class="Span">排列风格：</span>
-                <div class="Pfenggexuanze" >
-                    <div class="Pigeshu" v-for="(item,index) in tupians" :key="index" @click="geshu(item.id,item.name,index)">
-                        <div class="Pfdiv" :class="imgindex == index ? 'pitchimg' : ''">
-                        <img class="Pfgimg" :src="item.img" alt="">
-                            <img class="Pfduigou" v-if="imgindex == index" src="http://www1.xiaoniren.cn/js/plugins/ueditor/dialogs/image/images/success.png" alt="">
+            <!-- 添加图片 -->
+            <Imageupload :Iyincang="imgyincang" v-on:queren="tupiantianjia" v-on:guanbi="guanbi"></Imageupload>
+            <Danyemian :Dyincang="Dyincang" :items="Singlepage" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
+            <Xiangqing :yincang="yincang" :optione="ArrClassify" :Totalpages="Totalpages" :perpage="perpage" :items="particulars" :currentPage="currentPage" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
+            <Fenleiye :Fyincang="Fyincang" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
+            <div class="Pright">
+                <!-- 选择器 -->
+                <div class="Sdianzhao"><i></i><span>图片设置{{Pindex}}</span></div>
+                <div class="Swcaozuo">
+                    <span class="Span" style="margin-top:0px">模块配置：</span>
+                    <div class="SwLunbo" style="width:140px">
+                        <span class="YesNoLb" style="marginRight:6px">是否显示</span>
+                        <div class="YesNo">
+                            <span class="Yes" :class="photos.PiynMK ? 'pitch' : '' "  @click="PiYesMK()">是</span>
+                            <span class="No" :class="!photos.PiynMK ? 'pitch' : '' "  @click="PiNoMK()">否</span>
                         </div>
-                        <span>{{item.pap}}</span>
                     </div>
                 </div>
-            </div>
-            <div>
-                <span class="Span">模块高度：</span>
-                <el-input-number v-model="Pheight" controls-position="right" size="mini" @change="handleChange" :min="100" :max="1600"></el-input-number>
-            </div>
-            <div class="Ptupianquyu" v-for="(tem,ind) in tpimgs" :key="ind" @click="xuanze(ind)">
-                <div class="PTleft">
-                    <span class="Span">添加图片：</span>
-                    <div class="Stupian" @click="tjtp(ind)">
-                        <img class="Stuimg" :src="tem.tpimg" alt="">
-                        <span class="Stuspan">修改{{ind}}图</span>
+                <div class="Pfengge">
+                    <span class="Span">排列风格：</span>
+                    <div class="Pfenggexuanze">
+                        <div class="Pigeshu" v-for="(item,index) in tupians" :key="index" @click="geshu(item.id,item.name,index)">
+                            <div class="Pfdiv" :class="photos.colindex == index ? 'pitchimg' : ''">
+                                <img class="Pfgimg" :src="item.img" alt="">
+                                <img class="Pfduigou" v-if="photos.colindex == index" src="http://www1.xiaoniren.cn/js/plugins/ueditor/dialogs/image/images/success.png" alt="">
+                            </div>
+                            <span>{{item.pap}}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="PTright">
-                    <span class="Spann">页面：</span><el-cascader class="Picinput" :options="options" :clearable="true" @change="change" :show-all-levels="false"></el-cascader>
+                <div>
+                    <span class="Span">模块高度：</span>
+                    <el-input-number v-model="photos.height" controls-position="right" size="mini" @change="handleChange" :min="100" :max="1600"></el-input-number>
                 </div>
+                <div class="Ptupianquyu" v-for="(tem,ind) in photos.img" :key="ind" @click="xuanze(ind)">
+                    <div class="PTleft">
+                        <span class="Span">添加图片：</span>
+                        <div class="Stupian" @click="tjtp(ind)">
+                            <img class="Stuimg" :src="tem.tpimg" alt="">
+                            <span class="Stuspan">修改{{ind}}图</span>
+                        </div>
+                    </div>
+                    <div class="PTright">
+                        <span class="Spann">页面：</span><el-cascader class="Picinput" :options="options" :clearable="true" @change="change" :show-all-levels="false"></el-cascader>
+                    </div>
+                </div>
+                <!-- 商品详情小页面 -->
             </div>
-            <!-- 商品详情小页面 -->
         </div>
     </div>
 </template>
@@ -94,36 +95,33 @@ export default {
         Fenleiye
     },
     props: {
+        Pindex: Number,
         Pitype:Boolean,
-        Pindex:Number,
         picigs:Array,
         options:Array,
         MerchantId: Number,
         ArrClassify:Array,
         // 详情
         Arrparticular:Array,
+        // 单页
+        Singlepage:Array,
+        // 
+        Totalpages:Number,
+        particulars:Array,
+        currentPage:Number,
+        perpage:Number,
+        // 
+        photos: Object
     },
     data () {
         return {
-            tupianzz:false,
-            tpimgs:[{tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',page:'page'}],
+            PiynMK:true,
             tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-            Pheight: 375,
-            sha: 1,
-            imgindex: 0,
+            tupianzz:true,
             // 图片点击index
             index:null,
-            PiynMK:true,
-            PiShowHide:true,
-            // Pitype:true,
             page:'',
-            Pimg: 'Pimg',
-            // 详情小页面
-            xiangqingz: false,
-            Dxiangqing: false,
-            Fxiangqing: false,
             // 分类数组
-            
             tupians: [
                 {name:'Pimg', id:'1',pap:'一竖',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
                 {name:'Pimg2',id:'2',pap:'二竖',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
@@ -132,133 +130,65 @@ export default {
                 {name:'Pimg4',id:'3',pap:'左二右一',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804989598.jpg'},
                 {name:'Pimg5',id:'5',pap:'左四右一',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254805042465.jpg'},
             ],
-            type:''
+            type:'',
+            imgyincang: false,
+            Fyincang: false,
+            Dyincang: false,
+            yincang: false,
         }
     },
-    mounted:function() {   
-        var getUrlStr =  function(name) {
-    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    　　var r = window.location.search.substr(1).match(reg);
-        　　if(r != null) return unescape(r[2]);
-        　　return null;
-        }
-        console.log('再次获取URL--id')
-        var id = getUrlStr ("id")
-        var type = getUrlStr("type")
+    mounted:function () {
         
-        this.picture(id,type)
-
-        // this.navjava(id)
-
-        console.log(this.MerchantId)
-        
-    },    
+    },
     methods: {
-        picture (id,type) {
-            var _this = this
-            if (type == 'front') {
-                this.type = Www1
-                // this.Pitype = false
-            }else if (type == 'back'){
-                this.type = BackEnd+id
-                // this.Pitype = true
-            }
-            this.$ajax.get(this.type)
-            .then(function (res) {
-                // 取值
-                if (res.data.ext.extAppid == 0) {
-                    var data = res.data.ext.ext
-                    for (var i in data.photos ) {
-                        if (i == _this.Pindex) {
-                            _this.Pimg = data.photos[i].class || _this.Pimg
-                            _this.sha = data.photos[i].colstyle || _this.sha
-                            _this.tpimgs = data.photos[i].img || _this.tpimgs
-                            _this.Pheight = data.photos[i].height || _this.Pheight
-                            _this.PiynMK = data.photos[i].display
-                            _this.imgindex = data.photos[i].colindex || _this.imgindex
-                            _this.geshu(data.photos[i].img.length,data.photos[i].class,data.photos[i].colindex)
-                        }
-                    }
-                }else {
-                    var data = res.data.ext.ext
-                    for (var i in data.photos ) {
-                        if (i == _this.Pindex) {
-                            _this.Pimg = data.photos[i].class || _this.Pimg
-                            _this.sha = data.photos[i].colstyle || _this.sha
-                            _this.tpimgs = data.photos[i].img || _this.tpimgs
-                            _this.Pheight = data.photos[i].height || _this.Pheight
-                            _this.imgindex = data.photos[i].colindex || _this.imgindex
-                            _this.PiynMK = data.photos[i].display
-                            _this.PiShowHide = data.photos[i].display
-                            _this.geshu(data.photos[i].img.length,data.photos[i].class,data.photos[i].colindex)
-                        }
-                    }
-                }
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('图片请求数据失败了')
-            });
-        },
-        navjava (id) {
-            var _this = this
-            this.$ajax.get(TemplatePage+id)
-            .then(function (res) {
-                _this.options = res.data
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('图片栏地址请求失败了')
-            });
-        },
         Dxqguanbi (e) {
-            this.Dxiangqing = false
+            this.Dyincang = false
         },
         Dxuanzele (id) {
             var p = this.page
             var s = p.substring(p.indexOf("=")+1,p.length);
             var reg = new RegExp(s);
             var a = p.replace(reg,"");
-            this.tpimgs[this.index].page = a + id ? a + id : this.tpimgs[this.index].page
-            console.log(this.tpimgs)
-            this.$emit("tupian",this.tpimgs,this.Pindex)
+            this.photos.img[this.index].page = a + id ? a + id : this.photos.img[this.index].page
+            this.$emit("tupian",this.photos.img,this.Pindex)
         },
         Fxqguanbi (e) {
-            this.Fxiangqing = false
+            this.Fyincang = false
         },
         Fxuanzele (id) {
             var p = this.page
             var s = p.substring(p.indexOf("=")+1,p.length);
             var reg = new RegExp(s);
             var a = p.replace(reg,"");
-            this.tpimgs[this.index].page = a + id ? a + id : this.tpimgs[this.index].page
-            console.log(this.tpimgs)
-            this.$emit("tupian",this.tpimgs,this.Pindex)
+            this.photos.img[this.index].page = a + id ? a + id : this.photos.img[this.index].page
+            this.$emit("tupian",this.photos.img,this.Pindex)
+            console.log('分类选择'+this.Pindex)
         },
-        PiYesMK () {
+        PiYesMK (i) {
             this.PiynMK = true
-            var Show = true
-            this.$emit('PiShowHide',Show,this.Pindex)
+            this.photos.PiynMK = true
+            this.$emit('PiShowHide',true,this.Pindex)
         },
-        PiNoMK () {
+        PiNoMK (i) {
             this.PiynMK = false
-            var Hide = false
-            this.$emit('PiShowHide',Hide,this.Pindex)
+            this.photos.PiynMK = false
+            this.$emit('PiShowHide',false,this.Pindex)
         },
         tjtp (ind) {
-            this.tupianzz = true
+            this.imgyincang = true
             this.index = ind
         },
         guanbi () {
-            this.tupianzz = false
+           this.imgyincang = false
         },
         tupiantianjia (id) {
-            this.tupianzz = false
-            this.tpimgs[this.index].tpimg = http + id.value
-            this.$emit("tupian",this.tpimgs,this.Pindex)
+            this.imgyincang = false
+            this.photos.img[this.index].tpimg = http + id.value
+            this.$emit("tupian",this.photos.img,this.Pindex)
+            console.log('图片添加'+this.Pindex)
         },
         handleChange(value) {
-            this.Pheight = value
+            this.photos.Pheight = value
             this.$emit("Picheight",value,this.Pindex)
         },
         // 选择商品ID
@@ -267,62 +197,67 @@ export default {
             var s = p.substring(p.indexOf("=")+1,p.length);
             var reg = new RegExp(s);
             var a = p.replace(reg,"");
-            this.tpimgs[this.index].page = a + e ? a + e : this.tpimgs[this.index].page
-            console.log(this.tpimgs)
-            this.$emit("tupian",this.tpimgs,this.Pindex)
+            this.photos.img[this.index].page = a + e ? a + e : this.photos.img[this.index].page
+            this.$emit("tupian",this.photos.img,this.Pindex)
+            console.log('选择商品'+this.Pindex)
         },
         // 赋值id
         xuanze (ind) {
-            // console.log('触发了选择'+ ind)
             this.index = ind
         },
         // 选择地址
         change(value) {
-            console.log(value)
             this.page = value[0] || 'page'
-            this.tpimgs[this.index].page = value[0] || 'page'
-            this.$emit("tupian",this.tpimgs,this.Pindex)
-
+            this.photos.img[this.index].page = value[0] || 'page'
+            this.$emit("tupian",this.photos.img,this.Pindex)
+            
             if (value[0] == "goodsInfo?id=") {
-                this.xiangqingz = true
+                this.yincang = true
             }else if (value[0] == "article?id=") {
-                this.Dxiangqing = true
+                this.Dyincang = true
             }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
-                this.Fxiangqing = true
+                this.Fyincang = true
             }
         },
         xqguanbi (e) {
-            this.xiangqingz = false
+            this.yincang = false
         },
         // 个数
         geshu (id,name,index) {
-            this.imgindex = index
+            this.photos.colindex = index
             this.$emit('clas',name,this.Pindex)
             if (name == 'Pimg4') {
-                this.sha = 3
+                this.photos.colstyle = 3
                 this.$emit('geshi',3,this.Pindex,index)
             }else if(name == 'Pimg5'){
-                this.sha = 4
+                this.photos.colstyle = 4
                 this.$emit('geshi',4,this.Pindex,index)
             }else if(name == 'Pimg32') {
-                this.sha = 2
+                this.photos.colstyle = 2
                 this.$emit('geshi',2,this.Pindex,index)
             }else{
-                this.sha = 1
-                this.Pimg = name
+                this.photos.colstyle = 1
+                this.photos.class = name
                 this.$emit('geshi',1,this.Pindex,index)
             }
-            console.log('photos.colstyle'+this.sha)
-            console.log('photos.class='+name)
             for (var i=0;i<id;i++) {
                 let img = {tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',page:'page'}
-                if (!this.tpimgs[i]) {
-                    this.tpimgs.push(img)
+                if (!this.photos.img[i]) {
+                    this.photos.img.push(img)
                 }
-                this.$emit("tupian",this.tpimgs,this.Pindex)
+                this.$emit("tupian",this.photos.img,this.Pindex)
             }
-            this.tpimgs.length = id
+            this.photos.img.length = id
             
+        },
+        xuanzhong (e) {
+            this.$emit('xuanzhong', e)
+        },
+        paging (e) {
+            this.$emit('paging', e)
+        },
+        sousuo (e) {
+            this.$emit('sousuo', e)
         }
     }
 }
@@ -525,17 +460,6 @@ export default {
         font-size: 16px;
         cursor: pointer;
         position: relative;
-    }
-    .Stuspan {
-        display: inline-block;
-        width: 100%;
-        height: 20%;
-        line-height: 25px;
-        position: absolute;
-        bottom: 0px;
-        left: 0px;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #fff;
     }
     
 </style>

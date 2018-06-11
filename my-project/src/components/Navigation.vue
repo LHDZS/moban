@@ -10,10 +10,10 @@
       <div class="clear"></div>
     </div>
      <!-- 图片上传小页面 -->
-    <Imageupload :shangchuan="shangchuan" v-on:queren="queren" v-on:guanbi="guanbi1"></Imageupload>
-    <Imageupload :shangchuan="xiugaishangchuan" v-on:queren="querenxiugai" v-on:guanbi="xiugaiguanbi"></Imageupload>
-    <Xiangqing :yincang="xiangqing" :MerchantId="MerchantId" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele"></Xiangqing>
-    <Danyemian :Dyincang="Dxiangqing" :MerchantId="MerchantId" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
+    <Imageupload :Iyincang="shangchuan" v-on:queren="queren" v-on:guanbi="guanbi1"></Imageupload>
+    <Imageupload :Iyincang="xiugaishangchuan" v-on:queren="querenxiugai" v-on:guanbi="xiugaiguanbi"></Imageupload>
+    <Xiangqing :yincang="xiangqing" :Totalpages="Totalpages" :items="particulars" :perpage="perpage" :currentPage="currentPage" :optione="ArrClassify" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
+    <Danyemian :Dyincang="Dxiangqing" :items="Singlepage" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
     <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
     <div class="Nright">
       <div class="Sdianzhao"><i></i><span>导航设置</span></div>
@@ -106,103 +106,40 @@ export default {
     index: Number,
     navigs: Array,
     Navtype: Boolean,
-    MerchantId: Number,
     ArrClassify:Array,
+    Singlepage:Array,
+    Totalpages:Number, 
+    particulars:Array,
+    currentPage:Number,
+    perpage:Number,
+    menu:Array,
+    NavynMK:Boolean,
+    NavShowHide:Boolean,
+    // 页面
+    options: Array
   },
   data () {
       return {
-        menu:[
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单1',
-            page:'http://www.xiaoniren.cn'},
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单2',
-            page:'http://www.xiaoniren.cn'},
-            {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-            name:'菜单3',
-            page:'http://www.xiaoniren.cn'},
-            {icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-            name:'菜单4',
-            page:'http://www.xiaoniren.cn'}
-        ],
         Vred:false,
-        restapi:'',
         radio: '1',
         Navplaceholder: '',
-        menulength: true,
         namedisable: true,
         pagedisable: true,
-        NavShowHide:true,
         type:'',
-        NavynMK:true,
-        limi: 4,
-        digital: '4',
         pageu: '',
         names:'',
         icons:'',
         key: null,
         bol: false,
-        paget:['value'],
-        opitem: [],
-        options :[
-          {
-            value: 'pages/article?id=',
-            label: '单页',
-          },{
-            value: 'pages/categoryInfo?id=',
-            label: '分类1',
-          },{
-            value: 'pages/categoryScrollDetail?id=',
-            label: '分类2',
-          },{
-            value: 'pages/categoryInfoTopScroll?id=',
-            label: '分类3',
-          },{
-            value: 'gbook',
-            label: '调查',
-          },
-          {
-            value: 'map',
-            label: '物流',
-          },{
-            value: 'pages/goodsInfo?id=',
-            label: '商品详情',
-          }
-        ],
-        xiangqing: false,
-        Dxiangqing: false,
-        Fxiangqing: false,
-        shangchuan: false,
-        xiugaishangchuan: false,
+        xiugaishangchuan:false,
+        shangchuan:false,
+        xiangqing:false,
+        Dxiangqing:false,
+        Fxiangqing:false,
+        paget:['value']
       }
-  },
-  mounted:function() {
-      var getUrlStr =  function(name) {
-    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    　　var r = window.location.search.substr(1).match(reg);
-        　　if(r != null) return unescape(r[2]);
-        　　return null;
-      }
-      console.log('再次获取URL--id')
-      var id = getUrlStr ("id")
-      var type = getUrlStr("type")
-
-      this.navi(id,type)
-      this.navjava (id)
   },
   methods: {
-    // 请求导航栏地址的数据
-    navjava (id) {
-      var _this = this
-      this.$ajax.get(TemplatePage+id)
-      .then(function (res) {
-          _this.options = res.data
-      })
-      .catch(function (err) {
-          console.log(err)
-          console.log('导航栏地址请求失败了')
-      });
-    },
     NavYesMK () {
         this.NavynMK = true
         var Show = true
@@ -214,7 +151,7 @@ export default {
         this.$emit('NavShowHide',Hide)
     },
     fuzhi (val,ine) {
-      this.Vred = false  
+      this.Vred = false
       this.namedisable = false
       this.pagedisable = false
       this.names = val.name
@@ -224,7 +161,7 @@ export default {
       let _this = this
       function isURL(domain) {
         var name = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-        if( !(name.test(domain)))
+        if(!(name.test(domain)))
         {
           _this.radio = '2'
           _this.pageu = domain
@@ -237,35 +174,6 @@ export default {
       }
       isURL(val.page)
       
-    },
-    // 求情导航栏个数
-    navi (id,type) {
-      var _this = this
-      if (type == 'front') {
-          this.type = Www1
-      }else if (type == 'back'){
-          this.type = BackEnd+id
-      }
-      this.$ajax.get(this.type)
-      .then(function (res) {
-          // 取值
-          if (res.data.ext.extAppid == 0) {
-            var data = res.data.ext.ext
-            _this.menu = data.menu || _this.menu
-            _this.NavynMK = data.menu_display
-            console.log('导航栏母版请求数据成功')
-          }else {
-            var data = res.data.ext.ext
-            _this.menu = data.menu || _this.menu
-            _this.NavShowHide = data.menu_display
-            _this.NavynMK = data.menu_display
-            console.log('导航栏子版请求数据成功')
-          }
-      })
-      .catch(function (err) {
-          console.log(err)
-          console.log('失败了')
-      });
     },
     // 图片上传点击确认
     queren (id) {
@@ -338,7 +246,6 @@ export default {
       console.log(value[0])
       this.menu[this.key].page = value[0] || 'page'
       this.$emit('naviga',this.menu)
-      // if (value[0].match(/[\?]/g)) {
         if (value[0] == "goodsInfo?id=") {
           this.xiangqing = true
           console.log('商品页')
@@ -348,8 +255,18 @@ export default {
         }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
           this.Fxiangqing = true
         }
-      // }
     },
+    // 详情组件事件
+    xuanzhong (e) {
+        this.$emit('xuanzhong', e)
+    },
+    paging (e) {
+        this.$emit('paging', e)
+    },
+    sousuo (e) {
+        this.$emit('sousuo', e)
+    },
+    // 
     xqguanbi (e) {
         this.xiangqing = false
     },

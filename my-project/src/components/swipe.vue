@@ -1,5 +1,5 @@
 <template>
-  <div class="swipe" v-if="SwShowHide">
+  <div class="swipe" v-if="SwipeShowHide">
       <div class="Cbody">
         <el-carousel height="141px" :autoplay='autoplay'
         :indicator-position="indicatorposition ? '' : 'none'"
@@ -10,9 +10,9 @@
             </el-carousel-item>
         </el-carousel>
       </div>
-      <Danyemian :Dyincang="Dxiangqing" :MerchantId="MerchantId" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
-      <Xiangqing :yincang="Swipexiangqing" :MerchantId="MerchantId" v-on:xqguanbi="xiangqingguanbi" v-on:choose="Swipexuanzele"></Xiangqing>
-      <Imageupload :shangchuan="Swipezhezhao" v-on:queren="Swipequeren" v-on:guanbi="Swipeguanbi"></Imageupload>
+      <Danyemian :Dyincang="Dxiangqing" :items="Singlepage" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
+      <Xiangqing :yincang="Swipexiangqing" :Totalpages="Totalpages" :items="particulars" :perpage="perpage" :currentPage="currentPage" :optione="ArrClassify" v-on:xqguanbi="xiangqingguanbi" v-on:choose="Swipexuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
+      <Imageupload :Iyincang="Swipezhezhao" v-on:queren="Swipequeren" v-on:guanbi="Swipeguanbi"></Imageupload>
       <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
       <div class="SWright">
           <div class="Sdianzhao"><i></i><span>轮播设置</span></div>
@@ -90,9 +90,28 @@ export default {
         showhide:Boolean,
         swipes:Array,
         Swtype: Boolean,
-        MerchantId: Number,
+        // 分类
         ArrClassify:Array,
-        options:Array
+        options:Array,
+        // 单页
+        Singlepage:Array,
+        // 详情
+        Totalpages:Number, 
+        particulars:Array,
+        currentPage:Number,
+        perpage:Number,
+        // 轮播图
+        indicatorposition: Boolean,
+        autoplay: Boolean,
+        list: Array,
+        // 控制显示隐藏
+        SwipeShowHide: Boolean,
+        Swtpname: Boolean,
+        Swyn: Number,
+        Swynd: Number,
+        Swzzc: Number,
+        SwynMK: Boolean,
+        interval: Number,
     },
     components: {
         Imageupload,
@@ -102,86 +121,21 @@ export default {
     },
     data () {
         return {
-            list: [
-                { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '轮播图1',
-                  page: 'page' },
-                { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '轮播图2',
-                  page: 'page2' },
-                { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '轮播图3',
-                  page: 'page3' }
-            ],
-            // 控制显示隐藏
-            Swtpname:false,
-            SwShowHide:true,
-            // Swtype:true,
-            Swyn: 1,
-            Swynd: 1,
-            Swzzc: 1,
-            SwynMK: true,
-            // 分类
-            // options:[
-            //     {
-            //         value: 'article?id=',
-            //         label: '单页',
-            //         children: [
-            //         {
-            //             value: '889',
-            //             label: '新闻',
-            //         },{
-            //             value: '888',
-            //             label: '介绍',
-            //         }
-            //         ],
-            //     },{
-            //         value: 'tiaozhuan',
-            //         label: '跳转',
-            //         children: [
-            //         {
-            //             value: 'gbook',
-            //             label: '调查',
-            //         },
-            //         {
-            //             value: 'map',
-            //             label: '物流',
-            //         }
-            //         ],
-            //     },{
-            //         value: 'goodsInfo?id=',
-            //         label: '商品详情',
-            //     }
-            // ],
-            interval:3000,
-            autoplay:true,
-            indicatorposition:true,
             bol: false,
             // 遮罩层
-            Swipezhezhao: false,
             index: null,
             type:'',
             // 商品详情
             Swipexiangqing:false,
             Dxiangqing:false,
             Fxiangqing:false,
+            Swipezhezhao:false,
             page:null
         }
     },
     // 挂载结束后
     mounted:function() {
-        var getUrlStr =  function(name) {
-    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    　　var r = window.location.search.substr(1).match(reg);
-        　　if(r != null) return unescape(r[2]);
-        　　return null;
-        }
-        // console.log('再次获取URL--id')
-        var id = getUrlStr ("id")
-        var type = getUrlStr("type")
 
-        this.datas(id,type)
-        // this.navjava(id)
     },
     methods: {
         SwYesMK () {
@@ -203,48 +157,6 @@ export default {
             this.Swtpname = false
             this.Swzzc = 2
             this.$emit('SwName',false,2)
-        },
-        datas (id,type) {
-            var _this = this
-            if (type == 'front') {
-                this.type = Www1
-            }else if (type == 'back'){
-                this.type = BackEnd+id
-            }
-            this.$ajax.get(this.type)
-            .then(function (res) {
-                // 取值
-                if (res.data.ext.extAppid == 0) {
-                    var data = res.data.ext.ext
-                    _this.indicatorposition =  data.swiper.dots
-                    _this.autoplay =  data.swiper.loop
-                    _this.interval = data.swiper.interval || _this.interval
-                    _this.list = data.swiper.list || _this.list
-                    _this.Swtpname = data.swiper.maskStatus
-                    _this.Swzzc = data.swiper.SwNume || _this.Swzzc
-                    _this.Swynd = data.swiper.Swdot || _this.Swynd
-                    _this.Swyn = data.swiper.Swmove || _this.Swyn
-                    _this.SwynMK = data.swiper.display
-                }else {
-                    var data = res.data.ext.ext
-                    _this.indicatorposition =  data.swiper.dots
-                    _this.autoplay =  data.swiper.loop
-                    _this.interval = data.swiper.interval || _this.interval
-                    _this.list = data.swiper.list || _this.list
-                    _this.Swtpname = data.swiper.maskStatus
-                    _this.Swzzc = data.swiper.SwNume || _this.Swzzc
-                    _this.Swynd = data.swiper.Swdot || _this.Swynd
-                    _this.Swyn = data.swiper.Swmove || _this.Swyn
-                    _this.SwShowHide = data.swiper.display
-                    _this.SwynMK = data.swiper.display
-                    console.log('轮播图请求子数据成功')
-                }
-                
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('轮播图请求子数据失败')
-            });
         },
         SwYes() {
             this.autoplay = true;
@@ -334,6 +246,7 @@ export default {
         },
         // 图片上传
         Swipetianjia (ind) {
+            console.log('图片上传')
             this.Swipezhezhao = true
             this.index = ind
         },
@@ -390,7 +303,18 @@ export default {
             }
             this.list.push(swipe)
             this.$emit('Swipequeren',this.list)
+        },
+        // 详情组件事件
+        xuanzhong (e) {
+            this.$emit('xuanzhong', e)
+        },
+        paging (e) {
+            this.$emit('paging', e)
+        },
+        sousuo (e) {
+            this.$emit('sousuo', e)
         }
+        // 
     }
 }
 </script>

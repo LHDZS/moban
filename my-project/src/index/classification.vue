@@ -20,8 +20,8 @@
         </div>
         <div class="HoBottom"></div>    
         <div class="yangshi">
-            <el-button type="primary" plain @click="yangshiyi()" :autofocus='true'>样式一</el-button>
-            <el-button type="primary" plain @click="yangshier()">样式二</el-button>
+            <el-radio v-model="is" label="1" @change="yangshiyi()" border>分类一</el-radio>
+            <el-radio v-model="is" label="2" @change="yangshier()" border>分类二</el-radio>
         </div>
     </div>
 </template>
@@ -42,26 +42,26 @@ export default {
     data () {
         return {
             commodity: 'categorySearch',
-            is: 1
+            is: '1'
         }
     },
     mounted:function () {
         var doc = document.documentElement.clientHeight
-        this.$refs.mybox.style.height = doc-200 + 'px'
+        this.$refs.mybox.style.height = doc-211 + 'px'
         const that = this;
         window.onresize = function temp() {
-            that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 200}px`;
+            that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 211}px`;
         };
     },
     methods: {
         // 样式按钮 
         yangshiyi () {
-            this.is = 1
+            this.is = '1'
             this.commodity = 'category'
             eventBus.$emit("myRun",this.commodity)
         },
         yangshier () {
-            this.is = 2
+            this.is = '2'
             this.commodity = 'categorySearch'
             eventBus.$emit("myRun",this.commodity)
         }
@@ -98,7 +98,6 @@ export default {
 }
 .Class {
   overflow: auto;
-  overflow-y: scroll;
 }
 // 商品分类
 .classification {

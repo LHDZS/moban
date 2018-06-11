@@ -11,8 +11,8 @@
      <!-- 图片上传小页面 -->
     <Imageupload :shangchuan="shangchuan" v-on:queren="queren" v-on:guanbi="guanbi1"></Imageupload>
     <Imageupload :shangchuan="xiugaishangchuan" v-on:queren="querenxiugai" v-on:guanbi="xiugaiguanbi"></Imageupload>
-    <Xiangqing :yincang="xiangqing" :MerchantId="MerchantId" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele"></Xiangqing>
-    <Danyemian :Dyincang="Dxiangqing" :MerchantId="MerchantId" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
+    <Xiangqing :yincang="xiangqing" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele"></Xiangqing>
+    <Danyemian :Dyincang="Dxiangqing" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
     <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
     <div class="Nright">
       <div class="Sdianzhao"><i></i><span>导航设置</span></div>
@@ -116,7 +116,7 @@ export default {
   data () {
       return {
         menu:[
-{
+            {
               "name": "堂食",
               "icon": "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254143871508.png",
               "page": "goods?title=堂食",

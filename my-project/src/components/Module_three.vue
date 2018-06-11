@@ -51,51 +51,13 @@ export default {
      }
   },
   mounted:function () {
-    //   this.ajax()
-    //   this.shangpin()
+
   },
   methods: {
       xuanzhong(id,key) {
           this.ky = key;
           this.id = id
       },
-    //   ajax() {
-    //     var _this = this
-    //     this.lists = []
-    //     this.$ajax.get(GoodssCategory, {
-    //         params: {
-    //         merchant_id : 130,
-    //         type : 0,
-    //         }
-    //     })
-    //     .then(function (res) {
-    //         var dait = res.data.data.items
-    //         for (var k in dait) {
-    //             if (dait[k].level == 1) {
-    //                 _this.lists.push(dait[k])
-    //             }
-    //         }
-    //     })
-    //     .catch(function (err) {
-    //         console.log(err);
-    //     });
-    //   },
-    // shangpin () {
-    //         var _this = this
-    //         this.$ajax.get(Goodss, {
-    //             params: {
-    //             merchant_id : 130,
-    //             page : 1,
-    //             per_page : 100
-    //             }
-    //         })
-    //         .then(function (res) {
-    //             _this.items = res.data.data.items
-    //         })
-    //         .catch(function (err) {
-    //             console.log(err);
-    //         });
-    // }
   }
 }
 </script>

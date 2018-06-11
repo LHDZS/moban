@@ -19,9 +19,9 @@
         </div>
         <div class="HoBottom"></div>
         <div class="Cyangshi">
-            <el-button type="primary" plain @click="yangshitwoyi()" :autofocus='true'>分类一</el-button>
-            <el-button type="primary" plain @click="yangshitwoer()">分类二</el-button>
-            <el-button type="primary" plain @click="yangshitwosan()">分类三</el-button>
+            <el-radio v-model="iz" label="1" @change="yangshitwoyi()" border>商品一</el-radio>
+            <el-radio v-model="iz" label="2" @change="yangshitwoer()" border>商品二</el-radio>
+            <el-radio v-model="iz" label="3" @change="yangshitwosan()" border>商品三</el-radio>
         </div>
         <div class="clear"></div>
     </div>
@@ -48,31 +48,31 @@ export default {
         return {
             classify: 'categoryInfoTopScroll',
             namesan: '商品列表',
-            iz: 2
+            iz: '2'
         }
     },
     mounted:function () {
         var doc = document.documentElement.clientHeight
-        this.$refs.mybox.style.height = doc-200 + 'px'
+        this.$refs.mybox.style.height = doc-211 + 'px'
         const that = this;
         window.onresize = function temp() {
-            that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 200}px`;
+            that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 211}px`;
         };
     },
     methods: {
     // 样式按钮 
         yangshitwoyi () {
-            this.iz = 1
+            this.iz = '1'
             this.classify = 'categoryInfo'
             eventBus.$emit("myFun",this.classify)
         },
         yangshitwoer () {
-            this.iz = 2
+            this.iz = '2'
             this.classify = 'categoryScrollDetail'
             eventBus.$emit("myFun",this.classify)
         },
         yangshitwosan () {
-            this.iz = 3
+            this.iz = '3'
             this.classify = 'categoryInfoTopScroll'
             eventBus .$emit("myFun",this.classify)
         },

@@ -25,11 +25,29 @@
       <div class="shouye_wrap">
         <div class="shouye" @click="hai">
           <Title class="arre" :title="name" :color="color2" :colorz="color4" v-on:showhide="titsh"></Title>
-          <Signage class="Siarr" :Sitype="TypeShowHide" v-on:yangshi="Syangshi" v-on:gaodu="Sgaodu" v-on:logo="Slogo" v-on:beijing="Sbeijing" v-on:name="Sname" v-on:color="Scolor" v-on:SiShowHide="SiShowHide"></Signage>
+          <Signage class="Siarr" :Sitype="TypeShowHide" 
+            :img="img"
+            :images="images"
+            :height="height"
+            :ifimg="ifimg"
+            :SiynMK="SiynMK"
+            :SiShowHide="SiShowHide"
+            :names="names"
+            :colorz="color1"
+            :radio="radio"
+            v-on:yangshi="Syangshi" 
+            v-on:gaodu="Sgaodu" 
+            v-on:logo="Slogo" v-on:beijing="Sbeijing" v-on:name="Sname" v-on:color="Scolor" v-on:SiShowHide="HomeiShowHide">
+          </Signage>
           <Video class="Viarr"
-          v-on:ViShowHide="ViShowHide"
-          v-on:Viheight="Viheight"
-          v-on:VideoSite="VideoSite"
+            v-on:ViShowHide="ViShowHide"
+            v-on:Viheight="Viheight"
+            v-on:VideoSite="VideoSite"
+            :Videoheight="Videoheight"
+            :Vitype="Vitype"
+            :ViHideShow="ViHideShow"
+            :ViynMK="ViynMK"
+            :Vinput="Vinput"
           ></Video>
           <div class="Swipe">
             <div class="arr" :is="sitem.component" 
@@ -39,46 +57,125 @@
             :ArrClassify="ArrClassify" 
             :Swtype="TypeShowHide" 
             @click.native="Swiclick(sindex)" 
-            :MerchantId="MerchantId" 
+            :Totalpages="Totalpages" 
+            :particulars="particulars"
+            :currentPage="page"
+            :perpage="perpage"
+            :Singlepage="Singlepage"
             :options="Hoptions" 
-            v-on:SwShowHide="SwShowHide"
-            v-on:indicatorposition="heidian" v-on:autoplay="lunbo" v-on:speed="speed" v-on:SwName="SwName" v-on:Swipequeren="Homequeren"></div>
+            :indicatorposition="indicatorposition"
+            :autoplay="autoplay"
+            :list="list"
+            :SwipeShowHide="SwShowHide"
+            :Swtpname="Swtpname"
+            :Swyn="Swyn"
+            :Swynd="Swynd"
+            :Swzzc="Swzzc"
+            :SwynMK="SwynMK"
+            :interval="interval"
+            v-on:SwShowHide="HomewShowHide"
+            v-on:xuanzhong="homexuanzhong"
+            v-on:paging="homepaging"
+            v-on:sousuo="homesousuo"
+            v-on:indicatorposition="heidian" 
+            v-on:autoplay="lunbo" 
+            v-on:speed="speed" 
+            v-on:SwName="SwName" 
+            v-on:Swipequeren="Homequeren"></div>
           </div>
           <div class="Navigation">
-            <div class="navarr" :is="nitem.component" v-for="(nitem, nindex) in navigs" :key="nindex" :index="nindex" :navigs="navigs" :ArrClassify="ArrClassify" @click.native="Navclick(nindex)" :MerchantId="MerchantId" :Navtype="TypeShowHide" v-on:naviga="navigas" v-on:NavShowHide="NavShowHide"></div>
-          </div>
-          <Preferential class="Prarr" v-on:youhui="youhui" :color="color1" :Prtype="TypeShowHide" :PrynMK="Pranniu" :PrShowHide="Prxianyin" v-on:PrShowHide="PrShowHide"></Preferential>
-          <div class="Picture">
-            <div class="Piarr" :is="item.component" v-for="(item, index) in Pictures" 
-            :key="index" 
-            :Pindex="index" 
+            <div class="navarr" :is="nitem.component" v-for="(nitem, nindex) in navigs" 
+            :key="nindex"
+            :index="nindex"
+            :menu="navigaz"
+            :NavynMK="NavynMK"
+            :NavShowHide="NavShowHide"
             :options="Hoptions"
-            :Arrparticular="Arrparticular"
+            :navigs="navigs"
             :ArrClassify="ArrClassify"
-            :picigs="Pictures"
-            @click.native="Piclick(index)" :Appid="appid" :Pitype="TypeShowHide" :MerchantId="MerchantId" v-on:tupian="Ptupian" v-on:geshi="Pgeshi" v-on:clas="Pclas" v-on:Picheight="Pheight" v-on:PiShowHide="PiShowHide"></div>
+            :currentPage="page"
+            :perpage="perpage" 
+            @click.native="Navclick(nindex)" 
+            :Totalpages="Totalpages" 
+            :particulars="particulars" 
+            :Singlepage="Singlepage" 
+            :Navtype="TypeShowHide" 
+            v-on:naviga="navigas" 
+            v-on:NavShowHide="HomeNavShowHide" 
+            v-on:xuanzhong="homexuanzhong"
+            v-on:paging="homepaging"
+            v-on:sousuo="homesousuo"></div>
+          </div>
+          <bulletin :notice="notice" v-on:bgColor="bgColor" v-on:content="content" v-on:BuShowHide="BuShowHide"></bulletin>
+          <Preferential class="Prarr" v-on:youhui="youhui" :color="color1" :Prtype="TypeShowHide" :PrynMK="Pranniu" :PrShowHide="Prxianyin" v-on:PrShowHide="PrShowHide"></Preferential>
+          <div class="Picture" v-for="(item,index) in photos" :key="index">
+            <Picture
+              @click.native="Commclick(index)"
+              :Pindex="index"
+              :Appid="appid"
+              :photos="item"
+              :options="Hoptions"
+              :Arrparticular="Arrparticular"
+              :ArrClassify="ArrClassify"
+              :Pitype="TypeShowHide"
+              :Totalpages="Totalpages"
+              :particulars="particulars"
+              :perpage="perpage"
+              :currentPage="page"
+              :Singlepage="Singlepage"
+              v-on:tupian="Ptupian"
+              v-on:geshi="Pgeshi"
+              v-on:clas="Pclas"
+              v-on:Picheight="Pheight"
+              v-on:PiShowHide="PiShowHide"
+              v-on:xuanzhong="homexuanzhong"
+              v-on:paging="homepaging"
+              v-on:sousuo="homesousuo">
+            </Picture>
           </div>
           <Spellgroup class="Spearr" 
-            :Comtype="Spetype" 
+            :Comtype="Spetype"
+            :biaoti="biaoti_t"
+            :SpeShowHide="ComShowHide_t"
+            :ComynMK="ComynMK_t"
+            :radios="radio5"
+            :Speswitch="Speswitch"
+            :shul="shul_t"
+            :time="time_t"
+            :timeshowhide="timeshowhide_t"
+            :inventory="inventory_t"
+            :inventoryshowhide="inventoryshowhide_t"
+            :group="group"
+            :groupshowhide="groupshowhide"
             v-on:inventory="Speinventory"
             v-on:time="Spetime"
             v-on:group="Spegroup"
             v-on:biaoti="Spebiaot" 
             v-on:fenlei="Spefenlei" 
             v-on:digital="Spedigital" 
-            v-on:duoxuan="Speduoxuan" 
-            v-on:ComShowHide="SpeComShowHide">
+            v-on:SpeShowHide="SpeComShowHide">
           </Spellgroup>
-          <Secondskill class="Secarr" 
-          :Comtype="Sectype"
-          v-on:inventory="Secinventory"
-          v-on:time="Sectime"
-          v-on:price="Secprice"
-          v-on:biaoti="Secbiaot" 
-          v-on:fenlei="Secfenlei" 
-          v-on:digital="Secdigital" 
-          v-on:duoxuan="Secduoxuan" 
-          v-on:ComShowHide="SecComShowHide">
+          <Secondskill class="Secarr"
+            :Comtype="Sectype"
+            :biaoti="biaoti"
+            :SecShowHide="SecShowHide"
+            :ComynMK="ComynMK"
+            :radios="radio6"
+            :Secswitch="Secswitch"
+            :shul="shul"
+            :time="time"
+            :timeshowhide="timeshowhide"
+            :inventory="inventory"
+            :inventoryshowhide="inventoryshowhide"
+            :price="price"
+            :priceshowhide="priceshowhide"
+            v-on:inventory="Secinventory"
+            v-on:time="Sectime"
+            v-on:price="Secprice"
+            v-on:biaoti="Secbiaot" 
+            v-on:fenlei="Secfenlei" 
+            v-on:digital="Secdigital" 
+            v-on:SecShowHide="SecComShowHide">
           </Secondskill>
           <div class="Commoditybar">
             <div class="coomarr" ref="Commarr" :is="citem.component" v-for="(citem, cindex) in Cooms" :key="cindex" :index="cindex" :items="Cooms" @click.native="Commclick(cindex)" :color="color1" :Comtype="TypeShowHide" v-on:AddPush="AddPush" v-on:FlagItems="FlagItems" v-on:biaoti="biaot" v-on:fenlei="fenlei" v-on:digital="digital" v-on:duoxuan="duoxuan" v-on:ComShowHide="ComShowHide">
@@ -120,7 +217,8 @@ import Commoditybar from '../components/Commoditybar'
 import Video from '../components/Video'
 import Spellgroup from '../components/Spellgroup'
 import Secondskill from '../components/Secondskill'
-import {GoodsCategory,TemplatePage,MerchantId,Www1,BackEnd} from '../assets/BaseApi'
+import bulletin from '../components/bulletin'
+import {GoodsCategory,TemplatePage,MerchantId,Www1,BackEnd,WechatPage,Goods} from '../assets/BaseApi'
 
 export default {
   name:'home',
@@ -134,7 +232,8 @@ export default {
     Commoditybar,
     Video,
     Spellgroup,
-    Secondskill
+    Secondskill,
+    bulletin
   },
   data () {
     return {
@@ -149,11 +248,13 @@ export default {
         Sectype:true,
         // 结束
         TypeShowHide:true,
+        // 删除时触发的
         delBol: false,
+        // 优惠劵
         Prxianyin: true,
         Pranniu: true,
+        // 图片index
         Pindex:null,
-        list:[],
         listee: {
           "flag":[
             {
@@ -164,11 +265,15 @@ export default {
               classify: '横栏'
             }
           ],
+          "notice":{
+            disaply:true,
+            content: '',
+            bgColor: '#ca0000'
+          },
           "spellgroup":{
             display: true,
             tag: '秒杀商品',
             style: 1,
-            flag: '1,2',
             num: 4,
             time: 'true',
             timebool: true,
@@ -182,7 +287,6 @@ export default {
             display: true,
             tag: '拼团商品',
             style: 1,
-            flag: '1,2',
             num: 4,
             time: 'true',
             timebool: true,
@@ -195,7 +299,6 @@ export default {
           "flag_display":true,
           "video":{
             display:true,
-            style:1,
             height:350,
             page:''
           },
@@ -212,6 +315,7 @@ export default {
           "photos":[
             {
               display:true,
+              PiynMK:true,
               class:'Pimg',
               colstyle:1,
               colindex:0,
@@ -220,6 +324,7 @@ export default {
             },
             {
               display:true,
+              PiynMK:true,
               class:'Pimg',
               colstyle:1,
               colindex:0,
@@ -228,6 +333,7 @@ export default {
             },
             {
               display:true,
+              PiynMK:true,
               class:'Pimg',
               colstyle:1,
               colindex:0,
@@ -270,14 +376,14 @@ export default {
             interval: 3000,
             list: [
               { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '山水',
-                  page: 'page' },
-                { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '山水2',
-                  page: 'page2' },
-                { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
-                  name: '山水3',
-                  page: 'page3' }
+                name: '山水',
+                page: 'page' },
+              { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+                name: '山水2',
+                page: 'page2' },
+              { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+                name: '山水3',
+                page: 'page3' }
             ]
           },
           "router":{
@@ -294,10 +400,6 @@ export default {
         // 首页title
         name: '首页',
         titsh: true,
-        // 轮播数据
-        shuff: true,
-        poi: true,
-        spe: 3000,
         // 页面分类
         Hoptions :[
           {
@@ -348,7 +450,6 @@ export default {
         comms:null,
         // 商品默认值
         moren: {"tag": "商品栏","flag": [1,2,3,4],"num": 6,"style": 1,"classify": '横栏'},
-        // 设置默认值
         shuliang:6,
         yangshi:["long","long"],
         flag:[1,2,3,4],
@@ -356,27 +457,21 @@ export default {
         colsh: null,
         // 导航
         navigaz: [
-              {
-                name: "\u6210\u529f\u6848\u4f8b",
-                icon: "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-                page: "article?id=889"
-            },
-            {
-                name: "\u516c\u53f8\u4ecb\u7ecd",
-                icon: "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-                page: "article?id=888"
-            },
-            {
-                name: "\u7559\u8a00\u7c3f",
-                icon: "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-                page: "gbook"
-            },
-            {   
-                name: "\u5730\u56fe\u5bfc\u822a",
-                icon: "http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
-                page: "map"
-            }
+          {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
+          name:'菜单1',
+          page:'http://www.xiaoniren.cn'},
+          {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
+          name:'菜单2',
+          page:'http://www.xiaoniren.cn'},
+          {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
+          name:'菜单3',
+          page:'http://www.xiaoniren.cn'},
+          {icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+          name:'菜单4',
+          page:'http://www.xiaoniren.cn'}
         ],
+        NavynMK:true,
+        NavShowHide:true,
         navsh:null,
         // key:[0],
         // tab选择地址
@@ -388,33 +483,217 @@ export default {
         color4: '#fff',
         type:'',
         IEbanben: null,
+        // 详情 单页 等组件
+        // 搜索名字
+        ssname: '',
+        // 第几页
+        page:1,
+        // 一页显示多少个
+        perpage:4,
+        // 分类选择
+        flxz: null,
+        // 单页数组
+        Singlepage:[
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+        ],
+        // 总页
+        Totalpages:1,
+        particulars:[
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+            {name:'youhuijuan1', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
+            {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
+            {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
+        ],
+        // 视频组件
+        Videoheight:350,
+        Vitype: true,
+        ViHideShow: true,
+        ViynMK: true,
+        Vinput: 'http://',
+        // 结束
+        // 店招
+        img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253159871834.jpg',
+        images:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253159764283.png',
+        height: 300,
+        ifimg:true,
+        SiynMK: true,
+        SiShowHide:true,
+        names:'商城名称',
+        color1: '#ffffff',
+        radio: '1',
+        // 结束
+        // 秒杀
+        biaoti:"秒杀商品",
+        // 显示隐藏
+        SecShowHide:true,
+        ComynMK:true,
+        // UI单选
+        radio6: '横栏',
+        // 切换样式
+        Secswitch:1,
+        // 网址
+        shul:4,
+        // 剩余时间
+        time:'true',
+        timeshowhide: true,
+        // 库存
+        inventory: 'true',
+        inventoryshowhide: true,
+        // 原价
+        price:'true',
+        priceshowhide: true,
+        // 结束
+        // 拼团
+        biaoti_t:"拼团商品",
+        // 显示隐藏
+        ComShowHide_t:true,
+        ComynMK_t:true,
+        // UI单选
+        radio5: '横栏',
+        // 切换样式
+        Speswitch:1,
+        // 网址
+        shul_t:4,
+        // 剩余时间
+        time_t:'true',
+        timeshowhide_t: true,
+        // 库存
+        inventory_t: 'true',
+        inventoryshowhide_t: true,
+        // 原价
+        group:'true',
+        groupshowhide: true,
+        // 结束
+        // 轮播图
+        indicatorposition: true,
+        autoplay: true,
+        list: [
+            { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+              name: '轮播图1',
+              page: 'page' },
+            { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+              name: '轮播图2',
+              page: 'page2' },
+            { link: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
+              name: '轮播图3',
+              page: 'page3' }
+        ],
+        // 控制显示隐藏
+        SwShowHide: true,
+        Swtpname: true,
+        Swyn: 1,
+        Swynd: 1,
+        Swzzc: 1,
+        SwynMK: true,
+        interval: 3000,
+        // 图片
+        photos:[
+          {
+            display:true,
+            PiynMK:true,
+            class:'Pimg',
+            colstyle:1,
+            colindex:0,
+            height:368,
+            img:[{tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',page:'page'}],
+          },
+          {
+            display:true,
+            PiynMK:true,
+            class:'Pimg',
+            colstyle:1,
+            colindex:0,
+            height:368,
+            img:[{tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',page:'page'}],
+          },
+          {
+            display:true,
+            PiynMK:true,
+            class:'Pimg',
+            colstyle:1,
+            colindex:0,
+            height:368,
+            img:[{tpimg:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',page:'page'}],
+          }
+        ],
+        // 公告
+        notice:{
+          display: true,
+          content: '重大消息重大消息重大消息',
+          bgColor: '#ca0000'
+        }
     }
   },
   mounted:function () {
-    // 计算高度
-    var doc = document.documentElement.clientHeight
-    this.$refs.mybox.style.height = doc-211 + 'px'
-    const that = this;
-    window.onresize = function temp() {
-        that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 211}px`;
-    };
-
-    // 获取URL 地址参数
-    var getUrlStr =  function(name) {
-  　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  　　var r = window.location.search.substr(1).match(reg);
-      　　if(r != null) return unescape(r[2]);
-      　　return null;
-    }
-    console.log('获取URL--type')
-    var type = getUrlStr ("type")
-    var backid = getUrlStr ("id")
-    //   兄弟组件传值
-    // 商品
+      // 计算高度
+      var doc = document.documentElement.clientHeight
+      this.$refs.mybox.style.height = doc-211 + 'px'
+      const that = this;
+      window.onresize = function temp() {
+          that.$refs.mybox.style.height = `${document.documentElement.clientHeight - 211}px`;
+      }
+      // 获取URL 地址参数
+      var getUrlStr =  function(name) {
+    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    　　var r = window.location.search.substr(1).match(reg);
+        　　if(r != null) return unescape(r[2]);
+        　　return null;
+      }
+      console.log('获取URL--type')
+      var type = getUrlStr ("type")
+      var backid = getUrlStr ("id")
+      // 兄弟组件传值
+      // 商品
       eventBus.$on("myFun",(message)=>{
             this.classify = message
       })
-    //   分类
+      // 分类
       eventBus.$on("myRun",(message)=>{
             this.commodity = message
       })
@@ -427,10 +706,8 @@ export default {
       var _this = this
       if (type == 'front') {
         this.type = Www1
-        this.TypeShowHide = false
       }else if (type == 'back'){
         this.type = BackEnd+backid
-        this.TypeShowHide = true
       }
       console.log(this.type)
       this.$ajax.get(this.type)
@@ -441,21 +718,125 @@ export default {
           _this.name = data.title || _this.name
           _this.color4 = data.titleColor || _this.color4
           _this.color2 = data.backgroundColor || _this.color2
-          _this.shuff = data.swiper.loop
-          _this.poi = data.swiper.dots
-          _this.spe = data.swiper.interval
           _this.Cooms = data.items || _this.Cooms
           _this.shale = data.flag || _this.shale
-          _this.navigaz = data.menu || _this.navigaz
           _this.commodity = data.router.category || _this.commodity
           _this.classify = data.router.categoryDetail || _this.classify
+          _this.listee.spellgroup = data.spellgroup || _this.listee.spellgroup
+          _this.listee.secondskill = data.secondskill || _this.listee.secondskill
+          _this.listee.photos = data.photos || _this.listee.photos
+          _this.listee.banner = data.banner || _this.listee.banner
+          _this.listee.discounts = data.discounts || _this.listee.discounts
+          _this.listee.menu_display = data.menu_display || _this.listee.menu_display
+          _this.listee.flag_display = data.flag_display || _this.listee.flag_display
+          _this.listee.swiper = data.swiper || _this.listee.swiper
+          _this.listee.video = data.video || _this.listee.video
+          _this.listee.notice = data.notice || _this.listee.notice
+
+          // 视频
+          _this.Videoheight = data.video.height || _this.Videoheight
+          _this.Vinput = data.video.page || _this.Vinput
+          // 店招
+          _this.img =  data.banner.logo || _this.img
+          _this.images =  data.banner.background || _this.images
+          _this.names = data.banner.name || _this.names
+          _this.height = data.banner.height || _this.height
+          _this.ifimg = data.banner.isbig
+          _this.radio = data.banner.style || _this.radio
+          _this.color1 = data.banner.color || _this.color1
+          // 秒杀
+          _this.Secswitch = data.secondskill.style || 1
+          _this.biaoti = data.secondskill.tag || _this.biaoti
+          _this.shul = data.secondskill.num || _this.shul
+          _this.ComynMK = data.secondskill.display
+          _this.radio6 = data.secondskill.classify || _this.radio6
+          _this.time = data.secondskill.time
+          _this.timeshowhide = data.secondskill.timebool
+          _this.inventory = data.secondskill.inventory
+          _this.inventoryshowhide = data.secondskill.inventorybool
+          _this.price = data.secondskill.price
+          _this.priceshowhide = data.secondskill.pricebool
+          // 拼团
+          _this.Speswitch = data.spellgroup.style || 1
+          _this.biaoti_t = data.spellgroup.tag || _this.biaoti_t
+          _this.shul_t = data.spellgroup.num || _this.shul_t
+          _this.ComynMK_t = data.spellgroup.display
+          _this.radio5 = data.spellgroup.classify || _this.radio5
+          _this.time_t = data.spellgroup.time
+          _this.timeshowhide_t = data.spellgroup.timebool
+          _this.inventory_t = data.spellgroup.inventory
+          _this.inventoryshowhide_t = data.spellgroup.inventorybool
+          _this.group = data.spellgroup.group
+          _this.groupshowhide = data.spellgroup.groupbool
+          // 导航
+          _this.navigaz = data.menu || _this.navigaz
+          _this.NavynMK = data.menu_display
+          // 轮播
+          _this.indicatorposition =  data.swiper.dots
+          _this.autoplay =  data.swiper.loop
+          _this.interval = data.swiper.interval || _this.interval
+          _this.list = data.swiper.list || _this.list
+          _this.Swtpname = data.swiper.maskStatus
+          _this.Swzzc = data.swiper.SwNume || _this.Swzzc
+          _this.Swynd = data.swiper.Swdot || _this.Swynd
+          _this.Swyn = data.swiper.Swmove || _this.Swyn
+          _this.SwynMK = data.swiper.display
+          // 公告 
+          _this.notice.bgColor = data.notice.bgColor
+          _this.notice.content = data.notice.content
+          // 图片
+          for (var i in _this.photos) {
+            for (var j in data.photos) {
+              if (i == j) {
+                _this.photos[i].class = data.photos[i].class || _this.photos[i].class
+                _this.photos[i].PiynMK = data.photos[i].PiynMK
+                _this.photos[i].colstyle = data.photos[i].colstyle || _this.photos[i].colstyle
+                _this.photos[i].colindex = data.photos[i].colindex || _this.photos[i].colindex
+                _this.photos[i].height = data.photos[i].height || _this.photos[i].height
+                _this.photos[i].img = data.photos[i].img || _this.photos[i].img
+              }
+            }
+          }
           
-          _this.listee = data
           if (res.data.ext.extAppid != 0) {
             _this.Prxianyin = data.discounts
             _this.Pranniu = data.discounts
+            // video
+            _this.ViHideShow = data.video.display
+            _this.Vitype = data.video.display
+            // 店招
+            _this.SiShowHide = data.banner.display
+            _this.SiynMK = data.banner.display
+            // 秒杀
+            _this.ComShowHide = false
+            // 拼团
+            _this.ComShowHide_t = false
+            // 导航
+            _this.NavShowHide = data.menu_display
+            // 轮播图
+            _this.SwShowHide = data.swiper.display
+            // 公告
+            _this.notice.display = data.notice.display
+
+            for (var i in _this.photos) {
+              for (var j in data.photos) {
+                if (i == j) {
+                  _this.photos[i].display = data.photos[i].display
+                }
+              }
+            }
+
           }else {
             _this.Pranniu = data.discounts
+            // video
+            _this.ViynMK = data.video.display
+            // 店招
+            _this.SiynMK = data.banner.display
+
+            for (var i in _this.photos) {
+              _this.photos[i].display = true
+            }
+            
           }
           _this.metIdajax(res.data.ext.extAppid)
       })
@@ -483,6 +864,8 @@ export default {
       .then(function (res) {
           _this.MerchantId = res.data
           _this.ClassifyData(res.data)
+          _this.Singlepage_api(res.data)
+          _this.particulars_api(res.data)
           console.log('merchant_id请求成功')
       })
       .catch(function (err) {
@@ -496,7 +879,7 @@ export default {
         var _this = this
         this.$ajax.get(GoodsCategory, {
             params: {
-            merchant_id : MerchantId || 130,
+            merchant_id : MerchantId
             }
         })
         .then(function (res) {
@@ -507,6 +890,70 @@ export default {
             console.log(err)
             console.log('分类页数据请求失败了')
         });
+    },
+    // 获取单页面数据
+    Singlepage_api (MerchantId) {
+        var _this = this
+        this.$ajax.get(WechatPage, {
+            params: {
+                merchant_id : MerchantId
+            }
+        })
+        .then(function (res) {
+            _this.Singlepage = res.data.data
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log('商品详情请求失败了')
+        });
+    },
+    // 商品详情
+    particulars_api (MerchantId) {
+        var _this = this
+        this.$ajax.get(Goods, {
+            params: {
+                merchant_id : MerchantId,
+                page: this.page,
+                per_page:this.perpage,
+                name: this.ssname || '',
+                category_id: this.flxz
+            }
+        })
+        .then(function (res) {
+            _this.Totalpages = res.data.data._meta.totalCount
+            _this.particulars = res.data.data.items || _this.particulars
+        })
+        .catch(function (err) {
+            console.log(err)
+            console.log('商品详情请求失败了')
+        });
+    },
+    zhezhaoceng (e) {
+      console.log('首页收到的' + e)
+      this.Pindex = e
+    },
+    // 公告设置
+    BuShowHide(e) {
+      this.listee.notice.display = e
+    },
+    content (v) {
+      this.listee.notice.content = v
+    },
+    bgColor (c) {
+      this.listee.notice.bgColor = c
+    },
+    // 详情页的功能
+    homexuanzhong (e) {
+      this.flxz = e
+      this.particulars_api(this.MerchantId)
+    },
+    homesousuo (e) {
+      this.ssname = e
+      this.particulars_api(this.MerchantId)
+    },
+    homepaging (e) {
+      this.page = e
+      this.particulars_api(this.MerchantId)
     },
     // 拼团
     Speinventory (v,i) {
@@ -525,15 +972,11 @@ export default {
       this.listee.spellgroup.tag = s
     },
     Spefenlei (p,index,x) {
-      console.log(p +'------'+ x)
       this.listee.spellgroup.style = p
       this.listee.spellgroup.classify = x
     },
     Spedigital (v,index) {
       this.listee.spellgroup.num = v
-    },
-    Speduoxuan (y,index) {
-      this.listee.spellgroup.flag = y
     },
     SpeComShowHide (v) {
       this.listee.spellgroup.display = v
@@ -556,15 +999,11 @@ export default {
       this.listee.secondskill.tag = s
     },
     Secfenlei (p,index,x) {
-      console.log(p +'------'+ x)
       this.listee.secondskill.style = p
       this.listee.secondskill.classify = x
     },
     Secdigital (v,index) {
       this.listee.secondskill.num = v
-    },
-    Secduoxuan (y,index) {
-      this.listee.secondskill.flag = y
     },
     SecComShowHide (v) {
       this.listee.secondskill.display = v
@@ -580,6 +1019,7 @@ export default {
     ViShowHide (s) {
       this.listee.video.display = s
     },
+    // 视频结束
     PrShowHide (s) {
       this.listee.discounts = s
     },
@@ -587,18 +1027,19 @@ export default {
       this.listee.flag_display = s
     },
     // 导航
-    NavShowHide(s) {
+    HomeNavShowHide(s) {
       this.listee.menu_display = s
     },
     // 店招
-    SiShowHide (s) {
+    HomeiShowHide (s) {
       this.listee.banner.display = s
     },
     PiShowHide (s,i) {
       this.listee.photos[i].display = s
+      this.listee.photos[i].PiynMK = s
     },
     // 轮播图显示隐藏
-    SwShowHide (s) {
+    HomewShowHide (s) {
       this.listee.swiper.display = s
     },
     SwName (Bol,i) {
@@ -624,12 +1065,6 @@ export default {
     },
     Commclick(h) {
       this.comms = h
-      console.log(h)
-      console.log(this.comms)
-    },
-    // 图片index获取
-    Piclick(i) {
-      this.Pindex = i
     },
     hai (e) {
       // 轮播
@@ -657,6 +1092,8 @@ export default {
       var Spearr = document.getElementsByClassName('Spearr')
       // 秒杀
       var Secarr = document.getElementsByClassName('Secarr')
+      // 
+      var Bularr = document.getElementsByClassName('bulletin')
 
       if(!Arre[0].contains(e.target)){
           Rightarr[0].getElementsByClassName('righttwo')[0].style.display = 'none'
@@ -687,7 +1124,6 @@ export default {
       // 导航点击事件
       ClickArr(NavArr,"Nright",this.navsh)
       // 商品栏点击事件
-      // ClickArr(ColArr,"Cright",this.colsh)
       ClickArr(Coomarr,"Commright",this.comms)
       // 店招
       ClickArr(Siarr,"Sright")
@@ -701,6 +1137,8 @@ export default {
       ClickArr(Spearr,"Speright")
       // 秒杀
       ClickArr(Secarr,"Secright")
+      // 秒杀
+      ClickArr(Bularr,"Bulright")
     },
     // 删除时触发 替换value值为2的元素
     // delEle(index){
@@ -711,6 +1149,7 @@ export default {
     // 图片样式
     Ptupian (e,i) {
       this.listee.photos[i].img = e
+      this.Pindex = i
     },
     Pgeshi (e,i,y) {
       this.listee.photos[i].colstyle = e
@@ -718,6 +1157,7 @@ export default {
     },
     Pclas (e,i) {
       this.listee.photos[i].class = e
+      this.Pindex = i
     },
     Pheight (h,i) {
       this.listee.photos[i].height = h
@@ -789,7 +1229,6 @@ export default {
     },
     // 优惠券储存
     youhui(i) {
-      // console.log(i)
       if (this.arr.length < 4) {
         this.arr.push(i)
       }else{
@@ -799,17 +1238,17 @@ export default {
     },
     // 轮播图是否轮播储存
     lunbo (e,i) {
-      this.shuff = e
+      this.listee.swiper.loop = e
       this.listee.swiper.Swmove = i
     },
     // 轮播小点是否显示储存
     heidian (e,i) {
-      this.poi = e
+      this.listee.swiper.dots = e
       this.listee.swiper.Swdot = i
     },
     // 轮播速度
     speed(value) {
-      this.spe = value
+      this.listee.swiper.interval = value
     },
     Homequeren (list) {
       this.listee.swiper.list = list
@@ -854,10 +1293,6 @@ export default {
       // console.log(shale)
       this.listee.flag = shale
       // console.log('=========')
-      // 轮播图
-      this.listee.swiper.loop = this.shuff
-      this.listee.swiper.dots = this.poi
-      this.listee.swiper.interval = this.spe
       // 导航栏
       this.listee.menu = this.navigaz
       //  标题
@@ -1092,5 +1527,41 @@ export default {
     position: absolute;
     left: 2px;
     top: -6px;
+  }
+  .Stuspan {
+      display: inline-block;
+      width: 100%;
+      height: 20%;
+      line-height: 25px;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+  }
+  .Sdianzhao {
+      width: 100%;
+      display: block;
+      height: 30px;
+      margin-bottom: 25px;
+  }
+  .Sdianzhao i {
+      display: inline-block;
+      width: 4px;
+      height: 12px;
+      background-color: #ad0018;
+      margin-top: 9px;
+      float: left;
+  }
+  .Sdianzhao span {
+      font-size: 18px;
+      color: #ad0018;
+      margin-left: 8px;
+      float: left;
+  }
+  .Span{
+      font-size: 16px;
+      margin-right: 15px;
+      float: left;
   }
 </style>

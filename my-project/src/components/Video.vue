@@ -38,60 +38,21 @@ import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
 export default {
     name:'Video',
     props:{
-
+        Videoheight:Number,
+        Vitype: Boolean,
+        ViHideShow: Boolean,
+        ViynMK: Boolean,
+        Vinput: String,
     },
     data () {
         return {
-            Videoheight:350,
-            Vitype: true,
-            ViHideShow: true,
-            ViynMK: true,
-            Vinput: 'http://',
             Vred: false
         }
     },
     mounted:function() {
-        var getUrlStr =  function(name) {
-    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    　　var r = window.location.search.substr(1).match(reg);
-        　　if(r != null) return unescape(r[2]);
-        　　return null;
-        }
-        var id = getUrlStr ("id")
-        var type = getUrlStr("type")
 
-        this.VideoHttp(id,type)
     },
     methods: {
-        VideoHttp (id,type) {
-            var _this = this
-            if (type == 'front') {
-                this.type = Www1
-            }else if (type == 'back'){
-                this.type = BackEnd+id
-            }
-            this.$ajax.get(this.type)
-            .then(function (res) {
-                // 取值
-                if (res.data.ext.extAppid == 0) {
-                    var data = res.data.ext.ext
-                    _this.Videoheight = data.video.height || _this.Videoheight
-                    _this.Vinput = data.video.page || _this.Vinput
-                    _this.ViynMK = data.video.display
-                }else {
-                    var data = res.data.ext.ext
-                    _this.Videoheight = data.video.height || _this.Videoheight
-                    _this.Vinput = data.video.page || _this.Vinput
-                    _this.ViHideShow = data.video.display
-                    _this.Vitype = data.video.display
-                    console.log('视频请求子数据成功')
-                }
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('视频请求数据失败')
-            });
-        },
         ViYesMK () {
             this.ViynMK = true
             var Show = true

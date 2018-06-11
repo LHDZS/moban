@@ -1,14 +1,6 @@
 <template>
   <div class="preferential" v-if="PrShowHide">
     <div class="Preber">
-        <!-- <div :class="youhuiyangshi" v-if="index < num" v-for="(item,index) in youhui" :key="index"> -->
-        <!-- <div class="youhuijuan">{{item.coupon_desc}}</div> -->
-        <!-- <div class="youhui" :style="{borderColor:color,height:height+'px'}">
-            <span class="you1" :style="{color:color}">{{item.face_value}}</span>
-            <span class="you2">满{{item.order_odds}}元可用</span>
-            <span class="you3" :style="{color:color}">{{item.coupon_name}}</span>
-            <div :class="lingqu" :style="{backgroundColor:color}">立即领取</div>
-        </div> -->
         <div class="YHJ1" v-if="PreImg == 1">
             <img class="youhuijuan1"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248207109243.png" alt="">
             <div class="clear"></div>
@@ -24,10 +16,6 @@
             <img class="youhuijuan3"  src="http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png" alt="">
             <div class="clear"></div>
         </div>
-        <!-- <div v-if="index < num" v-for="(item,index) in youhui" :key="index">
-            <img :class="youhuiyangshi" :src="item.img" alt="">
-        </div> -->
-        <!-- </div> -->
     </div>
     <div class="Prright">
         <div class="Sdianzhao"><i></i><span>优惠券设置</span></div>
@@ -44,8 +32,11 @@
         <div class="Pref_fengge">
             <span class="Span">排列风格：</span>
             <div class="Prefenggexuanze" >
-                <div class="Pigeshu" v-for="(item,index) in yhxz" :key="index" @click="geshu(item.name,item.id,item.lingqu)">
-                    <img class="Pfgimg" :src="item.img" alt="">
+                <div class="Pigeshu" v-for="(item,index) in yhxz" :key="index" @click="geshu(item.id,index)">
+                    <div class="Pfdiv" :class="Preindex == index ? 'pitchimg' : ''">
+                        <img class="Pfgimg" :src="item.img" alt="">
+                        <img class="Pfduigou" v-if="Preindex == index" src="http://www1.xiaoniren.cn/js/plugins/ueditor/dialogs/image/images/success.png" alt="">
+                    </div>
                     <span>{{item.pap}}</span>
                 </div>
             </div>
@@ -66,17 +57,13 @@ export default {
   },
   data () {
       return {
+        Preindex: 0,
         PreImg: 1,
-        // youhui: [
-        //     {img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248207109243.png'},
-        //     {img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201804/15248210497704.png'}
-        // ],
-        ceshi:[],
+        ceshi: [],
         youhuiyangshi: 'youhuijuan1',
         lingqu: 'liji',
         num: 1,
         height: 65,
-        // PrynMK:true,
         yhxz: [
           {name:'youhuijuan1', id:1,pap:'一列',lingqu:'liji',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
           {name:'youhuijuan2',id:2,pap:'双列',lingqu:'liji',img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
@@ -101,43 +88,9 @@ export default {
     youh(i) {
       this.$emit('youhui',i)
     },
-    // youhuijuan () {
-    //   var _this = this
-    //   this.$ajax.get(this.http + "/restapi/wechat-coupon", {
-    //       params: {
-    //           config_id  : 56,
-    //           apps_openid : this.Appid
-    //       }
-    //   })
-    //   .then(function (res) {
-    //       // console.log(res)
-    //       _this.youhui = res.data.data
-    //       _this.ceshi = res.data.data
-    //       console.log('优惠券请求数据成功')
-    //   })
-    //   .catch(function (err) {
-    //       console.log(err)
-    //       console.log('优惠券请求失败了')
-    //   });
-    // },
-    geshu (name,id,lingqu) {
-    //   this.youhuiyangshi = name
-    //   this.lingqu = lingqu
+    geshu (id,index) {
       this.PreImg = id
-      // console.log(this.youhui)
-    //   this.youhui = this.ceshi
-    //   for (var i=0;i<id;i++) {
-    //       let yh = {coupon_desc:'优惠券',face_value:'66',order_odds:'666',coupon_name:'优惠价'}
-    //       if (!this.youhui[i]) {
-    //           this.youhui.push(yh)
-    //       }
-    //   }
-    //   this.youhui.length = id
-    //   if (id == 3) {
-    //     this.height = 85
-    //   }else {
-    //     this.height = 65
-    //   }
+      this.Preindex = index  
     }
   }
 }
@@ -279,5 +232,19 @@ input {
 .Prefenggexuanze {
     width: 400px;
     float: left;
+}
+.Pfdiv {
+    width: 100%;
+    position: relative;
+    border: 2px solid #ccc;
+}
+.pitchimg {
+    width: 100%;
+    border: 2px solid #1094fa;
+}
+.Pfduigou {
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 </style>

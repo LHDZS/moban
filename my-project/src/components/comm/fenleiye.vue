@@ -1,13 +1,13 @@
 <template>
     <div class="Fxiangqing" v-if="Fyincang">
-        <div class="xuanzechuankou" ref="xqbox">
+        <div class="Fxuanzechuankou" ref="xqbox">
         <div class="FxzckTop">
             <el-button class="X" type="text" @click="guanbi"><i class="el-icon-error col"></i></el-button>
             <div class="Fxzfuwenben">分类详情页面</div>
             <div style="width: 10px; display: inline-block;"></div>
         </div>
         <!-- 中间部分 -->
-        <div class="xzckMiddle">
+        <div class="FenleiMiddle">
             <div class="xzPrice">
                 <div class="dyimg">图片</div>
                 <div class="dyname">名称</div>
@@ -24,14 +24,6 @@
         <!-- 底部 -->
         <div class="xzckBottom">
             <div class="block">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="currentPage4"
-                :page-size="perpage"
-                layout="total, prev, pager, next, jumper"
-                :total="Totalpages">
-            </el-pagination>
             <el-button class="xzqueren" @click="guanbi" size="mini" type="primary">确认</el-button>
             </div>
         </div>
@@ -45,9 +37,10 @@ import {http,Goods,GoodsCategory} from '../../assets/BaseApi'
 export default {
     name:'feleiye',
     props: {
-        Fyincang:Boolean,
-        MerchantId:Number,
-        items:Array
+        Fyincang: Boolean,
+        items: Array,
+        ids: Number,
+        isd: Number
     },
     data () {
         return {
@@ -64,44 +57,19 @@ export default {
             Totalpages:1,
             id:null,
             value: '',
-            // items:[
-            //     {name:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号', id:1,title:'如何通过CSS自动隐藏超出宽度的字不带省略号如何通过CSS自动隐藏超出宽度的字不带省略号',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804789786.jpg'},
-            //     {name:'youhuijuan2',id:2,title:'双列',lingqu:'liji',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804847298.jpg'},
-            //     {name:'youhuijuan3',id:3,title:'三列',lingqu:'liji2',icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15254804889866.jpg'},
-            // ],
             http:''
         }
     },
-    // watch: {
-    //     MerchantId(newVal){
-    //         this.fenlei()
-    //     }
-    // },
+    watch: {
+        
+    },
     mounted:function () {
         var doc = document.documentElement.clientHeight
     },
     methods: {
         // 商品详情
-        // 分类
-        // fenlei () {
-        //     var _this = this
-        //     this.$ajax.get(GoodsCategory, {
-        //         params: {
-        //         merchant_id : this.MerchantId || 130,
-        //         }
-        //     })
-        //     .then(function (res) {
-        //         _this.items = res.data.data.items || _this.items
-        //         console.log('分类页数据请求数据成功')
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err)
-        //         console.log('分类页数据请求失败了')
-        //     });
-        // },
         // 分页选择
         handleCurrentChange (j) {
-            // console.log(j)
             this.page = j
             this.shangpin()
         },
@@ -111,10 +79,9 @@ export default {
         guanbi () {
             this.$emit('Fxqguanbi',this.yincang)
         },
-        xuanzedaole (id,ind) {
+        xuanzedaole (id) {
             this.id = id
-            // console.log('选择了' + id)
-            this.$emit('Fchoose', id,ind)
+            this.$emit('Fchoose', id)
         }
     }
 }
@@ -131,7 +98,7 @@ export default {
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 2000;
 }
-.xuanzechuankou {
+.Fxuanzechuankou {
     width: 600px;
     background-color: #fff;
     margin: 0 auto;
@@ -151,7 +118,7 @@ export default {
     float: right;
     padding-right: 15px;
 }
-.xzckMiddle {
+.FenleiMiddle {
     width: 100%;
     height: 277px;
     min-height: 50px;

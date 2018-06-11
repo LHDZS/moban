@@ -96,42 +96,6 @@
         // this.colum()
     },
     methods:{
-        // colum () {
-        //     var _this = this
-        //     this.$ajax.get(this.http + '/weapp-config/setting')
-        //     .then(function (res) {
-        //         // 取值
-        //         var data = res.data.ext.ext
-        //         if (data.flag) {
-        //           for (var k in data.flag ) {
-        //               if (k == _this.index) {
-        //                 _this.style = data.flag[k].style || _this.style
-        //                 _this.biaoti = data.flag[k].tag || _this.biaoti
-        //                 _this.shul = data.flag[k].num || _this.shul
-        //                 console.log(data.flag[k].flag)
-        //                 // 把字符串转化成整数数组
-        //                 _this.checkedCities = data.flag[k].flag || _this.checkedCities
-        //                 var dataStrArr = _this.checkedCities.split(",")
-        //                 var dataIntArr = []
-        //                 var dataIntArr =  dataStrArr.map(function(data){  
-        //                     return +data;
-        //                 })
-        //                 _this.checkedCities = dataIntArr
-        //                 console.log(_this.checkedCities)
-        //               }
-        //             console.log('for循环')
-        //           }
-        //           console.log('if判断')
-        //         }             
-        //         _this.ajax()
-
-        //         console.log('商品栏请求数据成功')
-        //     })
-        //     .catch(function (err) {
-        //         console.log(err)
-        //         console.log('失败了')
-        //     });
-        // },
         dataDetails() {
             this.bol = true
         },

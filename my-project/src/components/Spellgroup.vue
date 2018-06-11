@@ -1,5 +1,5 @@
 <template>
-  <div class="Spellgroup" v-if="ComShowHide">
+  <div class="Spellgroup" v-if="SpeShowHide">
       <div class="Cbody">
         <el-button id="shanchu" v-if="bol" type="text"><i class="el-icon-error col"></i></el-button>
         <div class="Spetitle"> 
@@ -90,17 +90,17 @@
         </div>
         <div class="Sshangcheng">
             <span class="shangchengname">商品样式：</span>
-            <el-radio-group v-model="radio6" size="mini" @change="Theradiobutton">
+            <el-radio-group v-model="radioz" size="mini" @change="Theradiobutton">
                 <el-radio-button label="横栏"></el-radio-button>
                 <el-radio-button label="竖二栏"></el-radio-button>
             </el-radio-group>
         </div>
-        <div class="Sshangcheng">
+        <!-- <div class="Sshangcheng">
             <span class="shangchengname">更多设置：</span>
             <el-checkbox-group v-model="checkedCities" @change="handle">
                 <el-checkbox class="ele" v-for="(city,idx) in cities" :label="idx+1" :key="idx">{{city}}</el-checkbox>
             </el-checkbox-group>
-        </div>    
+        </div>     -->
       </div>
   </div>
 </template>
@@ -117,11 +117,30 @@
         index: Number,
         items: Array,
         color: String,
-        Comtype: Boolean
+        Comtype: Boolean,
+        // 标题
+        biaoti: String,
+        // 显示隐藏
+        SpeShowHide: Boolean,
+        ComynMK: Boolean,
+        // UI单选
+        radioz: String,
+        // 切换样式
+        Speswitch: Number,
+        // 网址
+        shul: Number,
+        // 剩余时间
+        time: String,
+        timeshowhide: Boolean,
+        // 库存
+        inventory: String,
+        inventoryshowhide: Boolean,
+        // 成团
+        group: String,
+        groupshowhide: Boolean,
     },
     data () {
         return {
-            biaoti:"拼团商品",
             list:[
                 {name:'商品名称',price:"88",market:"5234",boll:'true',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg'},
                 {name:'商品名称',price:"88",market:"5234",thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg'},
@@ -158,110 +177,22 @@
             CoRedIn:1,
             // 删除事件需要的参数
             aid: 1,
-            // checkAll: false,
-            // 剩余时间
-            time:'true',
-            timeshowhide: true,
-            // 库存
-            inventory: 'true',
-            inventoryshowhide: true,
-            // 成团
-            group:'true',
-            groupshowhide: true,
-            // 
             checkedCities: [1,2],
             cities: cityOptions,
-            // isIndeterminate: true,
-            ComShowHide:true,
             // 帮助显示隐藏
             Helpcenter: false,
             // Comtype:true,
             type:'',
-            ComynMK:true,
             // UI单选
-            radio6: '横栏',
             style: [],
-            // 切换样式
-            Speswitch:1,
             // 网址
-            shul:4,
             bol: false,
             https:'https://www.xiaoniren.cn'
         }
     },
     mounted: function () {
-        var getUrlStr =  function(name) {
-    　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-    　　var r = window.location.search.substr(1).match(reg);
-        　　if(r != null) return unescape(r[2]);
-        　　return null;
-        }
-        var id = getUrlStr ("id")
-        var type = getUrlStr("type")
-        this.colum(id,type)
     },
     methods:{
-        colum (id,type) {
-            var _this = this
-            if (type == 'front') {
-                this.type = Www1
-            }else if (type == 'back'){
-                this.type = BackEnd+id
-            }
-            this.$ajax.get(this.type)
-            .then(function (res) {
-                // 取值
-                if (res.data.ext.extAppid == 0) {
-                    var data = res.data.ext.ext
-                    _this.Speswitch = data.spellgroup.style || 1
-                    _this.biaoti = data.spellgroup.tag || _this.biaoti
-                    _this.shul = data.spellgroup.num || _this.shul
-                    _this.ComynMK = data.spellgroup.display
-                    _this.radio6 = data.spellgroup.classify || _this.radio6
-                    _this.time = data.spellgroup.time
-                    _this.timeshowhide = data.spellgroup.timebool
-                    _this.inventory = data.spellgroup.inventory
-                    _this.inventoryshowhide = data.spellgroup.inventorybool
-                    _this.group = data.spellgroup.group
-                    _this.groupshowhide = data.spellgroup.groupbool
-                    // 把字符串转化成整数数组
-                    _this.checkedCities = data.spellgroup.flag || _this.checkedCities
-                    var dataStrArr = _this.checkedCities.split(",")
-                    var dataIntArr = []
-                    var dataIntArr =  dataStrArr.map(function(data){  
-                        return + data;
-                    })
-                    _this.checkedCities = dataIntArr
-                }else {
-                    var data = res.data.ext.ext
-                    _this.Speswitch = data.spellgroup.style || 1
-                    _this.biaoti = data.spellgroup.tag || _this.biaoti
-                    _this.shul = data.spellgroup.num || _this.shul
-                    _this.ComShowHide = false
-                    _this.ComynMK = data.spellgroup.display
-                    _this.radio6 = data.spellgroup.classify || _this.radio6
-                    _this.time = data.spellgroup.time
-                    _this.timeshowhide = data.spellgroup.timebool
-                    _this.inventory = data.spellgroup.inventory
-                    _this.inventoryshowhide = data.spellgroup.inventorybool
-                    _this.group = data.spellgroup.group
-                    _this.groupshowhide = data.spellgroup.groupbool
-                    // 把字符串转化成整数数组
-                    _this.checkedCities = data.spellgroup.flag || _this.checkedCities
-                    var dataStrArr = _this.checkedCities.split(",")
-                    var dataIntArr = []
-                    var dataIntArr =  dataStrArr.map(function(data){  
-                        return +data;
-                    })
-                    _this.checkedCities = dataIntArr
-                }     
-                console.log('拼团数据请求成功')
-            })
-            .catch(function (err) {
-                console.log(err)
-                console.log('失败了')
-            });
-        },
         // 选择器
         change(value) {
             console.log(value[0])
@@ -269,20 +200,13 @@
         ComYesMK () {
             this.ComynMK = true
             var Show = true
-            this.$emit('ComShowHide',Show)
+            this.$emit('SpeShowHide',Show)
         },
         ComNoMK () {
             this.ComynMK = false
             var Hide = false
-            this.$emit('ComShowHide',Hide)
+            this.$emit('SpeShowHide',Hide)
         },
-        // dataDetails() {
-        //     this.bol = true
-        //     console.log('出发了啊')
-        // },
-        // hiddenDetail() {
-        //     this.bol = false
-        // },
         // 帮助显示隐藏
         HelpcenterShow() {
             this.Helpcenter = true
@@ -322,22 +246,10 @@
         Digitalchange (value) {
             this.$emit('digital',value, this.index)
         },
-        Spedianji (id) {
-            this.CoRedIn = id
-            this.checkedCities = []
-            this.checkedCities.push(id)
-            // this.ajax()
-            this.$emit('duoxuan',this.checkedCities,this.index)
-        },
         // 标题
         biaot(err) {
             this.biaoti = err.target.value
             this.$emit('biaoti',this.biaoti,this.index)
-        },
-        handle(value) {
-            console.log(value)
-            this.checkedCities = value
-            this.$emit('duoxuan',value,this.index)
         },
         // 时间显示隐藏
         whethertime (value) {
@@ -386,16 +298,12 @@
         Theradiobutton(value) {
             if ( value == '横栏' ) {
                 this.Speswitch = 1
-                this.checkedCities = [1,2]
                 // this.ajax()
                 this.$emit('fenlei',1,this.index,value)
-                this.$emit('duoxuan',this.checkedCities,this.index) 
             }else if ( value == '竖二栏' ) {
                 this.Speswitch = 2
-                this.checkedCities = [1,2]
                 // this.ajax()
                 this.$emit('fenlei',2,this.index,value)   
-                this.$emit('duoxuan',this.checkedCities,this.index)
             }
         },
         ajax () {

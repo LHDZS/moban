@@ -102,7 +102,7 @@
     import {https,Goodss,Www1,BackEnd} from '../assets/BaseApi'
 
 
-    const cityOptions = ['热卖','最新','推荐','更新'];
+    const cityOptions = ['推荐','热卖','新品','促销'];
     const aiya = [1,2,3,4];
 
     export default {
@@ -129,9 +129,9 @@
                 {name:'商品名称',price:"88.88",market:"5234",thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg'},
             ],
             Commfenlei:[
-                {name:'热卖区',id:1},
-                {name:'新品区',id:2},
-                {name:'推荐区',id:3},
+                {name:'推荐区',id:1},
+                {name:'热卖区',id:2},
+                {name:'新品区',id:3},
                 {name:'促销区',id:4}
             ],
             radioNames: [],
@@ -196,9 +196,9 @@
                             _this.shul = data.flag[k].num || _this.shul
                             _this.ComynMK = data.flag_display
                             _this.radio6 = data.flag[k].classify || _this.radio6
+                            console.log(data.flag[k].flag)
                             // 把字符串转化成整数数组
-                            _this.checkedCities = data.flag[k].flag || _this.checkedCities
-                            var dataStrArr = _this.checkedCities.split(",")
+                            var dataStrArr = data.flag[k].flag.split(",")
                             var dataIntArr = []
                             var dataIntArr =  dataStrArr.map(function(data){  
                                 return +data;
@@ -218,10 +218,8 @@
                             _this.ComShowHide = data.flag_display
                             _this.ComynMK = data.flag_display
                             _this.radio6 = data.flag[k].classify || _this.radio6
-                            console.log(data.flag[k].flag)
                             // 把字符串转化成整数数组
-                            _this.checkedCities = data.flag[k].flag || _this.checkedCities
-                            var dataStrArr = _this.checkedCities.split(",")
+                            var dataStrArr = data.flag[k].flag.split(",")
                             var dataIntArr = []
                             var dataIntArr =  dataStrArr.map(function(data){  
                                 return +data;
@@ -324,27 +322,22 @@
             })
             console.log(this.items)
             this.$emit('AddPush',normal)
-            // this.delBol = false
-            // this.shale.push(normal)
         },
         // 单选
         Theradiobutton(value) {
             if ( value == '横栏' ) {
                 this.Commswitch = 1
                 this.checkedCities = [1,2,3,4]
-                // this.ajax()
                 this.$emit('fenlei',1,this.index,value)
                 this.$emit('duoxuan',this.checkedCities,this.index) 
             }else if ( value == '竖三栏' ) {
                 this.Commswitch = 3
                 this.checkedCities = [1,2,3,4]
-                // this.ajax()
                 this.$emit('fenlei',3,this.index,value)   
                 this.$emit('duoxuan',this.checkedCities,this.index)
             }else if ( value == '竖二栏' ) {
                 this.Commswitch = 2
                 this.checkedCities = [1,2,3,4]
-                // this.ajax()
                 this.$emit('fenlei',2,this.index,value)   
                 this.$emit('duoxuan',this.checkedCities,this.index)
             }

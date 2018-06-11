@@ -60,77 +60,23 @@ export default {
       this.handleScroll()
   },
   methods: {
-      xuanzhong(key) {
-        this.ky = key
-        let nametop = document.getElementsByClassName('Mname')
-        let docuntop = document.getElementById('top').scrollTop
-        for (var k in nametop) {
-            if (this.ky == k) {
-                document.getElementById('top').scrollTop = nametop[k].offsetTop
+        xuanzhong(key) {
+            this.ky = key
+            let nametop = document.getElementsByClassName('Mname')
+            let docuntop = document.getElementById('top').scrollTop
+            for (var k in nametop) {
+                if (this.ky == k) {
+                    document.getElementById('top').scrollTop = nametop[k].offsetTop
+                }
             }
-        }
-      },
-    //   ajax() {
-    //     var _this = this
-    //     this.$ajax.get(GoodssCategory, {
-    //         params: {
-    //         merchant_id : 130,
-    //         type : 0,
-    //         }
-    //     })
-    //     .then(function (res) {
-    //         let dd = {}
-    //         var dait = res.data.data.items
-    //         for (var k in dait) {
-    //             if (dait[k].level == 1) {
-    //                 _this.zise.push(dait[k])
-    //             }
-    //         }
-    //     })
-    //     .catch(function (err) {
-    //         console.log(err);
-    //     });
-    //   },
-    //   shangpin () {
-    //         var _this = this
-    //         this.$ajax.get(Goodss, {
-    //             params: {
-    //             merchant_id : 130,
-    //             page : 1,
-    //             per_page : 100
-    //             }
-    //         })
-    //         .then(function (res) {
-    //             var data = res.data.data.items
-    //             for (var i in data) {
-    //                 for (var j in _this.zise) {
-    //                     if (_this.zise[j].id == data[i].category_id) {
-    //                         if (!_this.zise[j].arr) {
-    //                             _this.zise[j].arr = []
-    //                         }
-    //                         _this.zise[j].arr.push(data[i])
-    //                     }
-    //                 }
-    //             }
-    //             _this.list = _this.zise
-    //         })
-    //         .catch(function (err) {
-    //             console.log(err);
-    //         });
-    //     },
-        // 滑动滚动
-        // goAnchor(selector) {
-        //     var anchor = this.$el.querySelector(selector)
-        //     document.body.scrollTop = anchor.offsetTop
-        //     console.log(document.body.scrollTop)
-        // },
+        },
         handleScroll(e){
             let nametop = document.getElementsByClassName('Mname')
             let docuntop = document.getElementById('top').scrollTop
             for (var i=0;i<nametop.length;i++) {
                 if (nametop[i] != nametop.length-1) {
                     if (docuntop > nametop[i].offsetTop && docuntop < nametop[i+1].offsetTop) {
-                         this.ky = i
+                            this.ky = i
                     }
                 }else{
                     if ( docuntop <= nametop[i].offsetTop) {

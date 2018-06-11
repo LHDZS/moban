@@ -25,38 +25,16 @@ export default {
              {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'2',price:'999.99'},
              {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'3',price:'999.99'},
              {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'4',price:'999.99'},
-             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'5',price:'999.99'},
-             {name:'此处是商品名称',thumb:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',id:'6',price:'999.99'},
              ],
             https:'https://www.xiaoniren.cn'
         }
     },
     mounted:function () {
-    //   this.ajax()
-  },
-  methods: {
-    //   ajax() {
-    //     var _this = this
-    //     this.list = []
-    //     this.$ajax.get(GoodssCategory, {
-    //         params: {
-    //         merchant_id : 130,
-    //         type : 0,
-    //         }
-    //     })
-    //     .then(function (res) {
-    //         var dait = res.data.data.items
-    //         for (var k in dait) {
-    //             if (dait[k].level == 1) {
-    //                 _this.list.push(dait[k])
-    //             }
-    //         }
-    //     })
-    //     .catch(function (err) {
-    //         console.log(err);
-    //     });
-    //   },
-  }
+
+    },
+    methods: {
+
+    }
 }
 </script>
 

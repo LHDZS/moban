@@ -1,7 +1,7 @@
 <template>
-<div class="Imageupload">
+<div class="Imageupload" v-if="Iyincang" ref="Image">
     <input id="wechatpage-icon" style="display:none" type="text">
-    <div class="zhezhaoceng" v-if="shangchuan">
+    <div class="zhezhaoceng">
         <div class="picture">
             <div class="pictureTop">
                 <span class="picTopSpan">我的图片</span>
@@ -25,36 +25,41 @@
 export default {
   name:'Imageupload',
   props: {
-      shangchuan:Boolean
+      Iyincang:Boolean
   },
   data () {
       return {
 
       }
   },
+  watch:{
+
+  },
   mounted:function () {
   },
   methods: {
       queren () {
         var id = document.getElementById('wechatpage-icon')
-        console.log(id)
         this.$emit('queren',id)
       },
       guanbi1 () {
-          this.$emit('guanbi',this.shangchuan)
+          this.$emit('guanbi')
       }
   }
 }
 </script>
 
 <style>
+/* .Imageupload {
+  display: none;
+} */
 .zhezhaoceng {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 2000;
 }
 .guanbi {

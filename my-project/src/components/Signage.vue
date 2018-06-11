@@ -5,15 +5,15 @@
                 <img class="Sbimg" :style="{height:height/2.5 + 'px'}" :src="images" alt="" ondragstart='return false;'>
                 <img :class="ifimg ? 'Simg' : 'Simg2'" :src="img" alt="" ondragstart='return false;'>
                 <div :class="ifimg ? 'Sbdiv1' : 'Sbdiv2'">
-                    <span class="Sspan" :style="{color:color1}">{{names}}</span>
+                    <span class="Sspan" :style="{color:colorz}">{{names}}</span>
                 </div>
+                <div id="icon-div" class="icondiv" style="display:none"></div>
                 </img>
             </div>
         </div>    
         <!-- logo -->
-        <Imageupload :shangchuan="logozz" v-on:queren="queren" v-on:guanbi="guanbi"></Imageupload>
-        <!-- 背景 -->
-        <Imageupload :shangchuan="beijingzz" v-on:queren="beijingqueren" v-on:guanbi="guanbi"></Imageupload>
+        <Imageupload ref="Image" :Iyincang="logoyincang" v-on:queren="queren" v-on:guanbi="guanbi"></Imageupload>
+        <Imageupload :Iyincang="beijingyincang" v-on:queren="beijingqueren" v-on:guanbi="guanbi"></Imageupload>
         <div class="Sright">
             <!-- 侧边栏 操作系统 -->
             <div class="Sdianzhao"><i></i><span>店招设置</span></div>
@@ -38,7 +38,7 @@
             </div>
             <div class="Sshangcheng">
                 <span class="scnamecolor">颜色修改：</span>
-                <el-color-picker class="yanse" v-model="color1" @change="color"></el-color-picker>
+                <el-color-picker class="yanse" v-model="colorz" @change="color"></el-color-picker>
             </div>
             <div class="Sshangcheng">
                 <span class="sctpgaodu">图片高度：</span>
@@ -76,81 +76,30 @@ export default {
       Imageupload
   },
   props: {
-      Sitype:Boolean
+        Sitype: Boolean,
+        img: String,
+        images: String,
+        height: Number,
+        ifimg: Boolean,
+        SiynMK: Boolean,
+        SiShowHide: Boolean,
+        names: String,
+        colorz: String,
+        radio: String
   },
   data () {
       return {
-          img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253159871834.jpg',
-          images:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253159764283.png',
-          height: 300,
-        //   Sitype:true,
-          logozz: false,
-          beijingzz: false,
-          ifimg:true,
-          bol: false,
-          SiynMK: true,
-          SiShowHide:true,
           type:'',
-          radio: '1',
-          color1: '#ffffff',
           input:'',
-          names:'商城名称'
+          bol: false,
+          beijingyincang:false,
+          logoyincang:false,
       }
   },
-  mounted:function() {
-    var getUrlStr =  function(name) {
-　　var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-　　var r = window.location.search.substr(1).match(reg);
-    　　if(r != null) return unescape(r[2]);
-    　　return null;
-    }
-    console.log('再次获取URL--id')
-    var id = getUrlStr ("id")
-    var type = getUrlStr("type")
-    
-    this.Signage(id,type)
+  watch: {
+      
   },
   methods: {
-    Signage (id,type) {
-        var _this = this
-        if (type == 'front') {
-            this.type = Www1
-        }else if (type == 'back'){
-            this.type = BackEnd+id
-        }
-        this.$ajax.get(this.type)
-        .then(function (res) {
-            // 取值
-            if (res.data.ext.extAppid == 0) {
-                var data = res.data.ext.ext
-                _this.img =  data.banner.logo || _this.img
-                _this.images =  data.banner.background || _this.images
-                _this.names = data.banner.name || _this.names
-                _this.height = data.banner.height || _this.height
-                _this.ifimg = data.banner.isbig
-                _this.radio = data.banner.style || _this.radio
-                _this.color1 = data.banner.color || _this.color1
-                _this.SiynMK = data.banner.display
-                console.log('店招母版请求数据成功')
-            }else {
-                var data = res.data.ext.ext
-                _this.img =  data.banner.logo || _this.img
-                _this.images =  data.banner.background || _this.images
-                _this.names = data.banner.name || _this.names
-                _this.height = data.banner.height || _this.height
-                _this.ifimg = data.banner.isbig
-                _this.radio = data.banner.style || _this.radio
-                _this.color1 = data.banner.color || _this.color1
-                _this.SiShowHide = data.banner.display
-                _this.SiynMK = data.banner.display
-                console.log('店招子版请求数据成功')
-            }
-        })
-        .catch(function (err) {
-            console.log(err)
-            console.log('店招请求数据失败了')
-        });
-    },
     dianzhao (e) {
         if (e == 1) {
             this.ifimg = true
@@ -175,25 +124,25 @@ export default {
         this.$emit('SiShowHide',Hide)
     },
     guanbi () {
-      this.logozz = false
-      this.beijingzz = false
+      this.logoyincang = false
+      this.beijingyincang = false
     },
     tupian () {
-      this.logozz = true
+        this.logoyincang = true
     },
     queren (id) {
-      this.logozz = false
+      this.logoyincang = false
       this.img = http + id.value
       this.$emit("logo",this.img)
     },
     tupian2 () {
-      this.beijingzz = true
+      this.beijingyincang = true
     },
     color(c) {
         this.$emit("color",c)
     },
     beijingqueren (id) {
-      this.beijingzz = false
+      this.beijingyincang = false
       this.images = http + id.value
       this.$emit("beijing",this.images)
     },
