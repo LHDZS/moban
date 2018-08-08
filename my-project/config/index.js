@@ -81,13 +81,13 @@ var path = require('path')
 
 // 每个环境的包路径不一样
 const HOST_CONF = require('./host-conf').HOST_CONF
-const assetsPublicPath = HOST_CONF.apiHostname === undefined ? '' : HOST_CONF.apiHostname + '/' + 'weapp/3/' + HOST_CONF.dirName
+const assetsPublicPath = HOST_CONF.apiHostname === undefined ? '' : HOST_CONF.apiHostname + '/' + 'weapp/26/' + HOST_CONF.dirName
 
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve("E:/xnr/frontend/web", 'weapp/3', HOST_CONF.dirName, 'static/index.html'), //modify
-    assetsRoot: path.resolve('E:/xnr/frontend/web','weapp/3', HOST_CONF.dirName), // modify
+    index: path.resolve('E:/xnr/frontend/web', 'weapp/26', HOST_CONF.dirName, 'static/index.html'),  //modify
+    assetsRoot: path.resolve('E:/xnr/frontend/web', 'weapp/26', HOST_CONF.dirName), // modify
     assetsSubDirectory: 'static',
     // 这里可改成了相对路径，建议用绝对路径
     // assetsPublicPath: '',

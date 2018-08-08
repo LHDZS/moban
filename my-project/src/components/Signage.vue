@@ -49,7 +49,7 @@
                 <div class="Stupian" @click="tupian">
                     <img class="Stuimg" :src="img" alt="" ondragstart='return false;'>
                     <span class="Stuspan">+修改图片</span>
-                    </div>
+                </div>
             </div>
             <div class="Simages">
                 <span class="Simagesbeijing">添加背景：</span>

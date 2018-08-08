@@ -16,7 +16,10 @@
         </div>
         <div class="Swcaozuo">
           <span class="Span">标题颜色修改：</span>
-          <el-color-picker class="yanse" v-model="color4"></el-color-picker>
+          <el-radio-group v-model="color4" size="mini" @change="titlecolor">
+              <el-radio label="black">黑色</el-radio>
+              <el-radio label="white">白色</el-radio>
+          </el-radio-group>
         </div>
       </div>
     </div>
@@ -43,7 +46,9 @@
             v-on:ViShowHide="ViShowHide"
             v-on:Viheight="Viheight"
             v-on:VideoSite="VideoSite"
+            v-on:Videobj="Videobj"
             :Videoheight="Videoheight"
+            :Videoimg="Videoimg"
             :Vitype="Vitype"
             :ViHideShow="ViHideShow"
             :ViynMK="ViynMK"
@@ -157,7 +162,7 @@
           </Spellgroup>
           <Secondskill class="Secarr"
             :Comtype="Sectype"
-            :biaoti="biaoti"
+            :biaoti="biaoti"              
             :SecShowHide="SecShowHide"
             :ComynMK="ComynMK"
             :radios="radio6"
@@ -178,9 +183,10 @@
             v-on:SecShowHide="SecComShowHide">
           </Secondskill>
           <div class="Commoditybar">
-            <div class="coomarr" ref="Commarr" :is="citem.component" v-for="(citem, cindex) in Cooms" :key="cindex" :index="cindex" :items="Cooms" @click.native="Commclick(cindex)" :color="color1" :Comtype="TypeShowHide" v-on:AddPush="AddPush" v-on:FlagItems="FlagItems" v-on:biaoti="biaot" v-on:fenlei="fenlei" v-on:digital="digital" v-on:duoxuan="duoxuan" v-on:ComShowHide="ComShowHide">
+            <div class="coomarr" :is="citem.component" v-for="(citem, cindex) in Cooms" :key="cindex" :index="cindex" :items="Cooms" @click.native="Commclick(cindex)" :color="color1" :Comtype="TypeShowHide" v-on:AddPush="AddPush" v-on:FlagItems="FlagItems" v-on:biaoti="biaot" v-on:fenlei="fenlei" v-on:digital="digital" v-on:duoxuan="duoxuan" v-on:ComShowHide="ComShowHide">
             </div>
           </div>
+          <TabBar v-on:tabbar="tabbar"></TabBar>
           <div class="Hright">
             <router-link to="/">
               <el-button type="info" size="mini">首页</el-button>
@@ -218,6 +224,7 @@ import Video from '../components/Video'
 import Spellgroup from '../components/Spellgroup'
 import Secondskill from '../components/Secondskill'
 import bulletin from '../components/bulletin'
+import TabBar from '../components/TabBar'
 import {GoodsCategory,TemplatePage,MerchantId,Www1,BackEnd,WechatPage,Goods} from '../assets/BaseApi'
 
 export default {
@@ -233,7 +240,8 @@ export default {
     Video,
     Spellgroup,
     Secondskill,
-    bulletin
+    bulletin,
+    TabBar
   },
   data () {
     return {
@@ -255,6 +263,38 @@ export default {
         Pranniu: true,
         // 图片index
         Pindex:null,
+        tabBar: {
+            color: '#999',
+            selectedColor: '#d53b33',
+            backgroundColor: '#fff',
+            borderStyle: '',
+            list: [
+                {
+                    pagePath: 'pages/index',
+                    text: '首页',
+                    iconPath: './image/home.png',
+                    selectedIconPath: './image/home-active.png'
+                },
+                {
+                    pagePath: 'pages/category',
+                    text: '分类',
+                    iconPath: './image/category.png',
+                    selectedIconPath: './image/category-active.png'
+                },
+                {
+                    pagePath: 'pages/library',
+                    text: '购物车',
+                    iconPath: './image/lib.png',
+                    selectedIconPath: './image/lib-active.png'
+                },
+                {
+                    pagePath: 'pages/member',
+                    text: '我的',
+                    iconPath: './image/member.png',
+                    selectedIconPath: './image/member-active.png'
+                },
+            ]
+        },
         listee: {
           "flag":[
             {
@@ -300,6 +340,7 @@ export default {
           "video":{
             display:true,
             height:350,
+            videoimg: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253996504214.jpg',
             page:''
           },
           "banner":{
@@ -428,7 +469,7 @@ export default {
               }
               ],
           },{
-              value: 'goodsInfo?id=',
+              value: 'discount?type=',
               label: '商品详情',
           }
         ],
@@ -459,16 +500,16 @@ export default {
         navigaz: [
           {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
           name:'菜单1',
-          page:'http://www.xiaoniren.cn'},
+          page:'https://www.xiaoniren.cn'},
           {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
           name:'菜单2',
-          page:'http://www.xiaoniren.cn'},
+          page:'https://www.xiaoniren.cn'},
           {icon:"http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg",
           name:'菜单3',
-          page:'http://www.xiaoniren.cn'},
+          page:'https://www.xiaoniren.cn'},
           {icon:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253158643349.jpg',
           name:'菜单4',
-          page:'http://www.xiaoniren.cn'}
+          page:'https://www.xiaoniren.cn'}
         ],
         NavynMK:true,
         NavShowHide:true,
@@ -552,10 +593,11 @@ export default {
         ],
         // 视频组件
         Videoheight:350,
+        Videoimg: 'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253996504214.jpg',
         Vitype: true,
         ViHideShow: true,
         ViynMK: true,
-        Vinput: 'http://',
+        Vinput: 'https://www.xiaoniren.cn',
         // 结束
         // 店招
         img:'http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253159871834.jpg',
@@ -735,6 +777,7 @@ export default {
 
           // 视频
           _this.Videoheight = data.video.height || _this.Videoheight
+          _this.Videoimg = data.video.videoimg || _this.Videoimg
           _this.Vinput = data.video.page || _this.Vinput
           // 店招
           _this.img =  data.banner.logo || _this.img
@@ -932,6 +975,9 @@ export default {
       console.log('首页收到的' + e)
       this.Pindex = e
     },
+    titlecolor(e) {
+      this.color4 = e
+    },
     // 公告设置
     BuShowHide(e) {
       this.listee.notice.display = e
@@ -1016,6 +1062,9 @@ export default {
     Viheight (h) {
       this.listee.video.height = h
     },
+    Videobj (m) {
+      this.listee.video.videoimg = m
+    },
     ViShowHide (s) {
       this.listee.video.display = s
     },
@@ -1054,6 +1103,11 @@ export default {
             }; 
         }
     },
+    // tabbar
+    tabbar(e) {
+      this.tabBar = e
+    },
+    // 结束
     Swiclick (i) {
       this.ind = i
     },
@@ -1087,6 +1141,8 @@ export default {
       var Arre = document.getElementsByClassName('arre')
 
       var Viarr = document.getElementsByClassName('Viarr')
+      // tabbar
+      var tabArr = document.getElementsByClassName('tabbar')
 
       // 拼团
       var Spearr = document.getElementsByClassName('Spearr')
@@ -1131,7 +1187,7 @@ export default {
       ClickArr(Piarr,"Pright",this.Pindex)
       // 优惠
       ClickArr(Prarr,"Prright")
-      // 
+      // 视频
       ClickArr(Viarr,'Vright')
       // 拼团
       ClickArr(Spearr,"Speright")
@@ -1139,6 +1195,8 @@ export default {
       ClickArr(Secarr,"Secright")
       // 秒杀
       ClickArr(Bularr,"Bulright")
+      // TabBar
+      ClickArr(tabArr,"Tabright")
     },
     // 删除时触发 替换value值为2的元素
     // delEle(index){
@@ -1317,7 +1375,7 @@ export default {
       // this.listee.items = this.Cooms
 
       console.log(this.listee)
-      this.$ajax.post(this.type, this.listee)
+      this.$ajax.post(this.type, this.listee, this.tabBar)
       .then(function (res) {
           console.log(res)
           _this.$message({

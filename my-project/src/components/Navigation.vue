@@ -15,6 +15,7 @@
     <Xiangqing :yincang="xiangqing" :Totalpages="Totalpages" :items="particulars" :perpage="perpage" :currentPage="currentPage" :optione="ArrClassify" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
     <Danyemian :Dyincang="Dxiangqing" :items="Singlepage" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
     <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
+    <Yingxiaohd :Yyincang="Yxiangqing" v-on:Yxqguanbi="Yxqguanbi" v-on:Ychoose="Yxuanzele"></Yingxiaohd>
     <div class="Nright">
       <div class="Sdianzhao"><i></i><span>导航设置</span></div>
       <div class="Swcaozuo" v-if="Navtype">
@@ -52,7 +53,7 @@
                 <div class="zhanwei"></div>
                 <div class="Navdiv">
                   <span class="Navname">修改名称：</span>
-                  <el-input class="Navinput" placeholder="输入内容" :value="names":placeholder="Navplaceholder" :maxlength="4" :disabled="namedisable" @blur="name" clearable></el-input>
+                  <el-input class="Navinput" placeholder="输入内容" :value="names" :placeholder="Navplaceholder" :maxlength="4" :disabled="namedisable" @blur="name" clearable></el-input>
                 </div>
                 <div class="zhanwei"></div>
                 <div class="Navdiv">
@@ -63,8 +64,8 @@
                 <div class="zhanwei" style="width: 100px height: 5px"></div>
                 <div class="Navdiv" :id="Vred ? 'Video' : ''" v-if="radio == 1">
                   <span class="Navname">外链：</span><el-input class="Navinput" placeholder="输入链接" :value="pageu" @blur="pages" :disabled="pagedisable" clearable></el-input>
-                  <span v-if="Vred" class="Vispan">请输入正确地址</span>
                 </div>
+                <div v-if="Vred" class="Vispan">请输入带有https开头的正确地址</div>
                 <div class="Navdiv" v-if="radio == 2">
                   <span class="Navname">页面：</span>
                   <el-cascader 
@@ -89,6 +90,7 @@
 <script>
 import Xiangqing from "../components/comm/xiangqing"
 import Danyemian from "../components/comm/danyemian"
+import Yingxiaohd from "../components/comm/yingxiaohuodong"
 import Imageupload from "../components/comm/Imageupload"
 import Fenleiye from "../components/comm/fenleiye"
 import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
@@ -99,7 +101,8 @@ export default {
     Xiangqing,
     Imageupload,
     Danyemian,
-    Fenleiye
+    Fenleiye,
+    Yingxiaohd
   },
   props:{
     showhide:Boolean,
@@ -134,7 +137,11 @@ export default {
         xiugaishangchuan:false,
         shangchuan:false,
         xiangqing:false,
+        // 单页面
         Dxiangqing:false,
+        // 营销活动
+        Yxiangqing:false,
+        // 分类
         Fxiangqing:false,
         paget:['value']
       }
@@ -223,6 +230,16 @@ export default {
       console.log(this.menu)
       this.$emit('naviga',this.menu)
     },
+    // 营销活动
+    Yxuanzele (id) {
+      var p = this.menu[this.key].page
+      var s = p.substring(p.indexOf("=")+1,p.length);
+      var reg = new RegExp(s);
+      var a = p.replace(reg,"");
+      this.menu[this.key].page = a+id || this.menu[this.key].page
+      console.log(this.menu)
+      this.$emit('naviga',this.menu)
+    },
     Fxuanzele (id) {
       var p = this.menu[this.key].page
       var s = p.substring(p.indexOf("=")+1,p.length);
@@ -254,6 +271,9 @@ export default {
           console.log('单页')
         }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
           this.Fxiangqing = true
+        }else if (value[0] == "discount?type=") {
+          this.Yxiangqing = true
+          console.log('营销活动')
         }
     },
     // 详情组件事件
@@ -273,6 +293,10 @@ export default {
     Dxqguanbi (e) {
         this.Dxiangqing = false
     },
+    // 营销活动
+    Yxqguanbi (e) {
+        this.Yxiangqing = false
+    },
     Fxqguanbi (e) {
         this.Fxiangqing = false
     },
@@ -283,16 +307,20 @@ export default {
     },
     pages (err) {
       this.menu[this.key].page = ''
-      var reg = /(http:\/\/|https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
-        if (!err.target.value.match(reg)) {
-            return this.Vred = true
-        }
-      this.Vred = false  
-      var p = err.target.value
-      var s = p.substring(0,p.indexOf("=")+1);
-      var a = p.replace(s,"");
-      this.menu[this.key].page = 'webView?url=' + a || this.menu[this.key].page
-      this.$emit('naviga',this.menu)
+      var reg = /(https:\/\/)((\w|=|\?|\.|\/|&|-)+)/g;
+      var cn = /www.xiaoniren.cn/g
+      var com = /720.xiaoniren.com/g
+      var e = decodeURIComponent(err.target.value)
+      
+      if (reg.test(e) && cn.test(e) || com.test(e)) {
+          this.Vred = false
+          var p = err.target.value
+          var a = p.replace('webView?url=',"");
+          this.menu[this.key].page = 'webView?url=' + encodeURIComponent(a || this.menu[this.key].page)
+          this.$emit('naviga',this.menu)
+      }else {
+          this.Vred = true
+      }
     },
     //删除数组指定元素   
       handleRemove(ine,name) {
@@ -351,11 +379,11 @@ export default {
   height: 100%;
 }
 .Cbody:hover {
-    cursor: move;
-    border-left: 1px dashed #409EFF;
-    border-right: 1px dashed #409EFF;
-    border-top: 1px solid #409EFF;
-    border-bottom: 1px solid #409EFF;
+  cursor: move;
+  border-left: 1px dashed #409EFF;
+  border-right: 1px dashed #409EFF;
+  border-top: 1px solid #409EFF;
+  border-bottom: 1px solid #409EFF;
 }
 .clear{ clear:both} 
 .oushu {
@@ -507,5 +535,10 @@ input {
 }
 .Navwailian {
   margin-left: 15px;
+}
+.Vispan {
+  width: 100%;
+  text-align: right;
+  color: #ca0000;
 }
 </style>

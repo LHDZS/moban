@@ -2,9 +2,10 @@
     <div class="Video" v-if="ViHideShow">
         <div class="Cbody">
             <div :style="{height:Videoheight/2.5+'px'}">
-                <img class="Stuimg" src="http://www1.xiaoniren.cn/upload/attachment/5/130/201805/15253996504214.jpg" alt="">
+                <img class="Stuimg" :src="Videoimg" alt="">
             </div>
         </div>
+        <Imageupload :Iyincang="imgyincang" v-on:queren="tupiantianjia" v-on:guanbi="guanbi"></Imageupload>
         <div class="Vright">
             <div class="Sdianzhao"><i></i><span>视频设置</span></div>
             <div class="Swcaozuo" v-if="Vitype">
@@ -26,6 +27,13 @@
                 <el-input class="shurukuang" v-model="Vinput" @change="VideoSite" :clearable="true" placeholder="请输入网址"></el-input>
                 <span v-if="Vred" class="Vispan">请输入正确地址</span>
             </div>
+            <div class="Ssimages">
+                <span class="Simagesbeijing">添加背景：</span>
+                <div class="Sstupian" @click="tupian2">
+                    <img class="Stuimg" :src="Videoimg" alt="" ondragstart='return false;'>
+                    <span class="Stuspan">+修改图片</span>
+                </div>
+            </div>
             <div>   
             </div>
         </div>
@@ -33,20 +41,26 @@
 </template>
 
 <script>
+import Imageupload from "../components/comm/Imageupload"
 import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
 
 export default {
     name:'Video',
     props:{
         Videoheight:Number,
+        Videoimg: String,
         Vitype: Boolean,
         ViHideShow: Boolean,
         ViynMK: Boolean,
         Vinput: String,
     },
+    components: {
+        Imageupload,
+    },
     data () {
         return {
-            Vred: false
+            Vred: false,
+            imgyincang: false
         }
     },
     mounted:function() {
@@ -76,6 +90,17 @@ export default {
             this.Vinput = event
             this.$emit("VideoSite",this.Vinput)
         },
+        tupian2 () {
+            this.imgyincang = true
+        },
+        tupiantianjia (id) {
+            this.imgyincang = false
+            this.Videoimg = http + id.value
+            this.$emit("Videobj",this.Videoimg)
+        },
+        guanbi () {
+           this.imgyincang = false
+        },
     }
 }
 </script>
@@ -90,7 +115,7 @@ export default {
         font-size: 14px;
         color: #666;
         width: 599px;
-        height: 230px;
+        height: 350px;
         cursor: default;
         position: fixed;
         left: 34%;
@@ -102,6 +127,34 @@ export default {
         border: 1px solid #d1d1d1;
         z-index: 1999;
         overflow: auto;
+    }
+    .Ssimages {
+        width: 100%;
+        height: 120px;
+        line-height: 120px;
+        margin-top: 10px;
+    }
+    .Ssimages .Simageslogo {
+        font-size: 16px;
+        margin-right: 17px;
+        float: left;
+    }
+    .Ssimages .Simagesbeijing {
+        font-size: 16px;
+        margin-right: 21px;
+        float: left;
+    }
+    .Sstupian {
+        display: inline-block;
+        width: 240px;
+        height: 120px;
+        text-align: center;
+        line-height: 120px;
+        background-color: #eee;
+        color: #7560f7;
+        font-size: 16px;
+        position: relative;
+        cursor: pointer;
     }
     .Sdianzhao {
         width: 100%;

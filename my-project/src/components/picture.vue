@@ -32,6 +32,7 @@
             <Danyemian :Dyincang="Dyincang" :items="Singlepage" v-on:Dxqguanbi="Dxqguanbi" v-on:Dchoose="Dxuanzele"></Danyemian>
             <Xiangqing :yincang="yincang" :optione="ArrClassify" :Totalpages="Totalpages" :perpage="perpage" :items="particulars" :currentPage="currentPage" v-on:xqguanbi="xqguanbi" v-on:choose="xuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
             <Fenleiye :Fyincang="Fyincang" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
+            <Yingxiaohd :Yyincang="Yxiangqing" v-on:Yxqguanbi="Yxqguanbi" v-on:Ychoose="Yxuanzele"></Yingxiaohd>
             <div class="Pright">
                 <!-- 选择器 -->
                 <div class="Sdianzhao"><i></i><span>图片设置{{Pindex}}</span></div>
@@ -82,6 +83,7 @@
 <script>
 import Xiangqing from '../components/comm/xiangqing'
 import Imageupload from "../components/comm/Imageupload"
+import Yingxiaohd from "../components/comm/yingxiaohuodong"
 import Danyemian from "../components/comm/danyemian"
 import Fenleiye from "../components/comm/fenleiye"
 import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
@@ -92,7 +94,8 @@ export default {
         Xiangqing,
         Imageupload,
         Danyemian,
-        Fenleiye
+        Fenleiye,
+        Yingxiaohd
     },
     props: {
         Pindex: Number,
@@ -135,6 +138,8 @@ export default {
             Fyincang: false,
             Dyincang: false,
             yincang: false,
+            // 营销活动
+            Yxiangqing:false,
         }
     },
     mounted:function () {
@@ -163,6 +168,20 @@ export default {
             this.photos.img[this.index].page = a + id ? a + id : this.photos.img[this.index].page
             this.$emit("tupian",this.photos.img,this.Pindex)
             console.log('分类选择'+this.Pindex)
+        },
+        // 营销活动
+        Yxqguanbi (e) {
+            this.Yxiangqing = false
+        },
+        // 营销活动
+        Yxuanzele (id) {
+            var p = this.page
+            var s = p.substring(p.indexOf("=")+1,p.length);
+            var reg = new RegExp(s);
+            var a = p.replace(reg,"");
+            this.photos.img[this.index].page = a + id ? a + id : this.photos.img[this.index].page
+            this.$emit("tupian",this.photos.img,this.Pindex)
+            console.log(this.photos)
         },
         PiYesMK (i) {
             this.PiynMK = true
@@ -207,6 +226,7 @@ export default {
         },
         // 选择地址
         change(value) {
+            console.log(value[0])
             this.page = value[0] || 'page'
             this.photos.img[this.index].page = value[0] || 'page'
             this.$emit("tupian",this.photos.img,this.Pindex)
@@ -217,6 +237,9 @@ export default {
                 this.Dyincang = true
             }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
                 this.Fyincang = true
+            }else if (value[0] == "discount?type=") {
+                this.Yxiangqing = true
+                console.log('营销活动')
             }
         },
         xqguanbi (e) {

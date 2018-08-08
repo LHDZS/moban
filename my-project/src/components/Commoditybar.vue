@@ -1,5 +1,5 @@
 <template>
-  <div class="Commoditybar" v-if="ComShowHide" ref="Commarr">
+  <div class="Commoditybar" v-if="ComShowHide">
       <div class="Cbody" v-on:mouseenter="dataDetails()" v-on:mouseleave="hiddenDetail()">
         <el-button id="shanchu" v-if="bol" type="text" @click="open2"><i class="el-icon-error col"></i></el-button>
         <div class="Commtitle"> 

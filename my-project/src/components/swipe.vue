@@ -14,6 +14,7 @@
       <Xiangqing :yincang="Swipexiangqing" :Totalpages="Totalpages" :items="particulars" :perpage="perpage" :currentPage="currentPage" :optione="ArrClassify" v-on:xqguanbi="xiangqingguanbi" v-on:choose="Swipexuanzele" v-on:xuanzhong="xuanzhong" v-on:paging="paging" v-on:sousuo="sousuo"></Xiangqing>
       <Imageupload :Iyincang="Swipezhezhao" v-on:queren="Swipequeren" v-on:guanbi="Swipeguanbi"></Imageupload>
       <Fenleiye :Fyincang="Fxiangqing" :items="ArrClassify" v-on:Fxqguanbi="Fxqguanbi" v-on:Fchoose="Fxuanzele"></Fenleiye>
+      <Yingxiaohd :Yyincang="Yxiangqing" v-on:Yxqguanbi="Yxqguanbi" v-on:Ychoose="Yxuanzele"></Yingxiaohd>
       <div class="SWright">
           <div class="Sdianzhao"><i></i><span>轮播设置</span></div>
           <div class="Swcaozuo" v-if="Swtype">
@@ -81,6 +82,7 @@
 import Imageupload from '../components/comm/Imageupload'
 import Xiangqing from '../components/comm/xiangqing'
 import Danyemian from "../components/comm/danyemian"
+import Yingxiaohd from "../components/comm/yingxiaohuodong"
 import Fenleiye from "../components/comm/fenleiye"
 import {http,TemplatePage,Www1,BackEnd} from '../assets/BaseApi'
 
@@ -117,7 +119,8 @@ export default {
         Imageupload,
         Xiangqing,
         Danyemian,
-        Fenleiye
+        Fenleiye,
+        Yingxiaohd
     },
     data () {
         return {
@@ -130,7 +133,9 @@ export default {
             Dxiangqing:false,
             Fxiangqing:false,
             Swipezhezhao:false,
-            page:null
+            page:null,
+            // 营销活动
+            Yxiangqing:false,
         }
     },
     // 挂载结束后
@@ -244,6 +249,19 @@ export default {
             this.list[this.index].page = a + id ? a + id : this.tpimgs[this.index].page
             this.$emit('Swipequeren',this.list)
         },
+        // 营销活动
+        Yxqguanbi (e) {
+            this.Yxiangqing = false
+        },
+        // 营销活动
+        Yxuanzele (id) {
+            var p = this.page
+            var s = p.substring(p.indexOf("=")+1,p.length);
+            var reg = new RegExp(s);
+            var a = p.replace(reg,"");
+            this.list[this.index].page = a + id ? a + id : this.tpimgs[this.index].page
+            this.$emit('Swipequeren',this.list)
+        },
         // 图片上传
         Swipetianjia (ind) {
             console.log('图片上传')
@@ -291,6 +309,10 @@ export default {
                 this.Dxiangqing = true
             }else if (value[0] == "categoryInfo?id=" || value[0] == "categoryScrollDetail?id=" || value[0] == "categoryInfoTopScroll?id=") {
                 this.Fxiangqing = true
+            }else if (value[0] == "discount?type=") {
+                console.log(value[0])
+                this.Yxiangqing = true
+                console.log('营销活动')
             }
         },
         // 添加轮播图
